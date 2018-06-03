@@ -15,6 +15,7 @@ Big data \cite{Tfg:bigdata} se refiere al concepto de conjuntos de datos tan mas
 Existen dos técnicas principales para aplicar el ETL en Big Data \cite{Tfg:batchstream}. La primera es el Batch Processing, que consiste en transformar datos que ya han estado almacenados durante un tiempo. La segunda es el Stream Processing, la cual consiste en transformar los datos en tiempo real, es decir, sin que los datos pasen mucho tiempo almacenados antes de ser transformados. Se encuentran dos arquitecturas de Big Data distinguidas que aplican las técnicas mencionadas, una es la arquitectura Lambda \cite{Tfg:lambda}, la cual integra las dos técnicas, y la otra la arquitectura Kappa \cite{Tfg:kappa} en la cual se utiliza mayoritariamente el Stream Processing.
 
 \section{Descripción de los sistemas de alertas existentes}
+En la empresa no existe un sistema de alertas como tal, pero sí que existen servidores con software de seguimiento de incidencias y servidores de búsqueda donde almacenar los datos procesados. En concreto, el software de seguimiento de incidencias que se utiliza es JIRA\cite{Tfg:jira} y el servidor de búsqueda Elastic Search\cite{Tfg:elasticsearch}. El sistema que se lleve a cabo va a tener que integrarse tanto con JIRA como con Elastic Search.
 
 \section{Problema, objetivos y alcance}
 \input{fproblema}
