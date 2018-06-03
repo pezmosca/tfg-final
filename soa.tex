@@ -1,0 +1,49 @@
+\section{Estado del arte}
+
+\subsection{Recolección de eventos en Android}
+En Android es posible ver crashlogs, syslogs o logs de aplicaciones si se trabaja conectado al dispositivo en modo depuración, este sistema para el propósito del proyecto no es útil dado que lo que se pretende es enviar tales eventos sin necesidad de conectar de forma física el dispositivo ubicuo a otro sistema. 
+
+Existen librerías que pueden ser utilizadas para añadirle funcionalidades a las aplicaciones Android con el objetivo de que recolecten eventos y los redirijan a otros canales diferentes del estándar (el canal estándar suele ser la consola de un PC). 
+
+Por un lado encontramos librerías especializadas en recolectar crashlogs como ACRA \cite{Tfg:acra}, que recolecta crashlogs y es capaz de redirigirlos a diferentes destinos, en esta categoría también encontramos a Breakpad \cite{Tfg:breakpad} que es un conjunto de cliente y servidor, aunque esta es más compleja de acoplar con Android.
+
+Por otro lado encontramos librerías para generar y redirigir logs de aplicaciones. Existen librerías que tienen como base la clase Log \cite{Tfg:logclass} propia del sistema Android como es el caso de HyperLog \cite{Tfg:hyperlog}, tales librerías suelen mejorar la clase Log consiguiendo redirigir los logs a diferentes destinos como podría ser un servidor. También encontramos librerías que no utilizan la clase Log de Android y que son propias del lenguaje Java en vez de Android, este es el caso de las librerías basadas en log4j o su nueva versión log4j2 \cite{Tfg:log4j2}. Han habido intentos de utilizar de forma pura log4j o log4j2 en Android, pero dado que Android utiliza de manera especial ciertos aspectos de Java no se suelen utilizar de forma pura, sino que se suelen utilizar librerías adaptadas como Logback \cite{Tfg:logback} o Blitz4j \cite{Tfg:blitz4j} que se adecuan mejor a Android.
+
+\subsection{Procesado de eventos con arquitecturas de Big Data Processing}\label{cap:procesadoBigData}
+Como referencia principal en la indústria es destacable el sistema que utiliza Netflix para explotar sus eventos, la conocida como V2.0 Keystone pipeline \cite{Tfg:netflixpipe} utiliza una arquitectura basada en Lambda para integrar en una sola capa tanto el procesado de eventos procedentes de logs como el procesado de eventos procedentes de su BI (Business Intelligence) \cite{Tfg:bi}. Utiliza Apache Kafka \cite{Tfg:kafka}, herramienta de moda en el mundo del Big Data Processing.
+
+Otra referencia bastante importante en la industria, es el sistema que utiliza LinkedIn para explotar los eventos que producen sus aplicaciones remotas y servidores. El conocido como Inception \cite{Tfg:inception} unifica en una sola capa todos los logs de sus dispositivos y aplicaciones para luego transformarlos y consumirlos por un software de seguimiento de errores como JIRA \cite{Tfg:jira}. Utiliza también Apache Kafka dado que el creador de dicha herramienta es trabajador de LinkedIn.
+
+Luego es posible encontrar sistemas más enfocados al Business Intelligence pero también interesantes a considerar como es el caso de los sistemas de Spotify  o el de Twitch \cite{Tfg:twitch}. Lo destacable en el sistema de Spotify \cite{Tfg:spotify} es el uso extenso de Kafka además de una integración de la capa de BI con la de logs. Lo destacable del sistema de Twitch es el modo en que hace la ingesta de datos dentro del sistema, una forma diferente con respecto a otros sistemas en la industria.
+
+Otro sistema a destacar es el sistema de Pinterest \cite{Tfg:pinterest}, la arquitectura en sí es la clásica arquitectura Lambda sin variaciones, lo interesante de este sistema es la recolección de eventos que hace en los dispositivos, consiste en un agente (Singer \cite{Tfg:singer}) que recolecta logs en diferentes formatos y los envía a la puerta de entrada del sistema de transformación de datos, en este caso Apache Kafka.
+
+En conclusión, encontramos que la industria lo que suele hacer para solucionar el problema de la recolección de eventos en aplicaciones ubicuas, procesado y mostrado de datos transformados es utilizar algún tipo de librería en el dispositivo ubicuo que sea capaz de recopilar los datos, y enviarlos a un agente intermedio entre el dispositivo ubicuo y el sistema de transformación de datos, una vez los datos han llegado al sistema de transformación, los datos de eventos se suelen procesar utilizando técnicas de Stream Processing. Estos sistemas de transformación de datos suelen integrar eventos y BI. Para mostrar los datos transformados suelen integrar con el sistema algún software de seguimiento de incidencias ya utilizado en la compañía y que los trabajadores ya están acostumbrados a él.
+
+\subsubsection{Tecnologías de transformación en tiempo real}
+
+Las tecnología expuestas en la sección \ref{cap:procesadoBigData} siguen el patrón ETL, donde la extracción es diferente para cada tipo de dispositivo al cual se le quiera extraer datos, luego tales datos se envían a un elemento intermedio (Apache Kafka) antes de transformarlos. Se puede decir que una vez los datos traspasan tal elemento intermedio empieza la transformación de los datos. Existen diferentes tecnologías con las que llevar a cabo la transformación en tiempo real, pero se van a presentar las dos más significativas y actuales.
+
+
+\textbf{Apache Spark Streaming:}
+
+Es la tecnología más popular para hacer transformaciones en tiempo real, aunque realmente no hace Stream Processing sino Micro Batching, para latencias no muy pequeñas no se diferencia el utilizar Stream Processing a Micro Batching. Es una solución ampliamente testeada y con una gran comunidad detrás, por lo que se puede encontrar bastante documentación y ejemplos, pero tiene la limitación de que realmente no hace Stream Processing. El lenguaje de implementación es en alto nivel, por lo que es bastante sencillo.
+
+\textbf{Apache Kafka Streams:}
+
+Es una tecnología relativamente nueva y no hace Micro Batching sino que hace un Stream Processing real. Tal solución está basada en Apache Kafka por lo que si ya se utiliza Kafka puede ser una buena opción puesto que no habrá ningún problema de integración. Una curiosidad de esta tecnología es que para procesar consume de Apache Kafka y una vez los datos han sido procesados los devuelve a Kafka, por lo que todo lo que se pueda integrar con Kafka podrá ser procesado. Aunque la documentación podría ser mayor, el lenguaje de implementación es bastante amigable y la curva de aprendizaje no es muy pronunciada.
+
+\textbf{Logstash:}
+
+Tanto Spark Streaming como Kafka Streams son tecnologías de propósito general, es decir, se pueden procesar todo tipo de datos ya sean eventos, mensajes o mero texto sin formatear. Existen tecnologías de propósito específico que se encargan de procesar un tipo de datos en concreto, en el caso de este proyecto el tipo de datos que interesa son los eventos (Logs, Syslogs, Crashlogs). Este es el ejemplo de Logstash parte de la ELK Stack (Logstash, Elastic Search, Kibana), que permite un procesado simple antes de almacenar los eventos.
+
+
+\subsection{Procesado de eventos como servicio}
+Es posible hallar empresas que ya ofrecen la solución del seguimiento y procesado de errores en las aplicaciones como un servicio, este es el caso de Crashlytics \cite{Tfg:crashlytics} o Datadog \cite{Tfg:datadog}. Existe una solución de Stream Processing como servicio de Amazon, Amazon Kinesis \cite{Tfg:kinesis}, pero no resuelve el tema de la recolección de eventos, solo su procesado.
+
+\subsection{Conclusiones}
+Una vez analizado el estado del arte se concluye que para la recolección de eventos se utilizarán librerías ya existente y se adaptarán ciertos aspectos de estas para que se ajusten a las necesidades de la empresa, tales librerías ya implementan los requisitos buscados y se adaptan fácilmente al uso que se quiere hacer con ellas. Las librerías ACRA y Logback son buenas candidatas para ser utilizadas.
+
+Para el procesado de eventos NO se contratará ningún servicio sino que basándose en casos de uso ya existentes se diseñará, implementará y desplegará una nueva arquitectura de Big Data que se adapte a las necesidades de la empresa. No se ve conveniente contratar ningún servicio dado que es preferible ser dueño de los datos y la arquitectura para ser más flexibles a cambios en el modo de tratar los datos y el uso que se va a hacer de ellos. El uso de una arquitectura basada en el Stream Processing parece una buena aproximación para procesar los eventos, dado que tales eventos pueden contener información crítica y un procesado de baja latencia puede ayudar a corregir errores en las aplicaciones ubicuas en poco tiempo. Las tecnologías de procesado a utilizar serán Kafka Streams y Logstash, puesto que Kakfka Streams nos permite un despliegue rápido además de ser una herramienta potente de procesado, la decisión de utilizar Logstash viene a raíz de que en el proyecto se busca integrarse con Elastic Search y Logstash parece un buen candidato tanto para tal integración como para unificar toda la capa de eventos.
+
+

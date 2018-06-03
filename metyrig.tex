@@ -1,0 +1,44 @@
+\chapter{Metodología y rigor}
+\section{Método de trabajo}
+Se utilizará un modelo de desarrollo en cascada \cite{Tfg:waterfall}, ya que es una planificación sencilla, fácil de entender y utilizar por alguien que no está acostumbrado a trabajar siguiendo un método concreto. Para el éxito de este proyecto utilizando esta metodología es muy importante la documentación, cosa que es positiva ya que este proyecto luego será utilizado en una empresa y ayudará a que los desarrolladores de la empresa tengan referencias e información sobre diferentes aspectos del proyecto. Al tener ya la mayoría de requisitos del proyecto definidos es poco probable que surjan necesidades imprevistas, esto sumado al hecho de que el desarrollo del proyecto lo llevará a cabo una única persona y por lo tanto no tendrá que sincronizarse con otros trabajadores, hacen que el modelo cascada sea uno de los más adecuados para este proyecto.
+
+A parte del uso del modelo de desarrollo cascada, la comunicación con el director del trabajo será frecuente, ya sea para hablar de aspectos generales del proyecto, o de aspectos más concretos. La comunicación será vía email o en persona. Idealmente se pactaran reuniones con el director cada quince días para comprobar los avances del proyecto. 
+
+\section{Herramientas de seguimiento}
+Para el seguimiento del desarrollo del software se utilizará el sistema de control de versiones Git y estas versiones se almacenarán en un repositorio remoto, se utilizará GitHub como repositorio remoto.
+
+Para el seguimiento del diseño e implementación del sistema se generará documentación que se publicará en el JIRA de la empresa. Para asegurar que el diseño y la implementación es aparentemente correcta se consultará con el director antes de publicar la documentación en JIRA.
+
+Para la generación de documentación de seguimiento se utilizará la suite ofimática LibreOffice, también LaTeX y se publicarán en JIRA bajo el formato PDF.
+
+\section{Métodos de evaluación}
+
+Los métodos de evaluación corresponderían a la fase de verificación del desarrollo en cascada.
+
+La parte de implementación del proyecto se puede dividir en las siguientes fases:
+
+\begin{itemize}
+	\item Subsistema de recolección y envío de eventos
+	\item Subsistema de recepción e ingesta de eventos
+ 	\item Subsistema de transformación de eventos
+	\item Integración con JIRA y ES Stack
+\end{itemize}
+
+Se aplica el desarrollo en cascada de forma independiente en cada fase del proyecto por lo que se obtienen cuatro fases de verificación.
+
+La fase de verificación del subsistema de recolección y envío de eventos consiste en la creación de una sencilla aplicación que integre las librerías escogidas en la fase de diseño con el fin de que recolecte y envíe eventos a un servidor desplegado en un entorno de pruebas. Tal servidor consiste en una máquina virtual que simula ser el subsistema de recepción e ingesta de eventos. Se modificará todo aquello de la aplicación que sea erróneo hasta que se consiga el resultado esperado en el servidor. Una vez se consiga el resultado esperado, se podrán exportar las configuraciones a los entornos de producción.
+
+La fase de verificación del subistema de recepción e ingesta de eventos consiste por un lado en configurar en una máquina virtual el módulo de recepción para que sea capaz de recibir enventos y pasarlos al módulo de ingesta. Por otro lado se ha de configurar en otra máquina virtual el módulo de ingesta de eventos para que sea capaz de comunicarse con el módulo de recepción de eventos y almacenar de forma parcial los eventos. Una vez las dos máquinas virtuales se comuniquen entre si, y los mensajes enviados al módulo de recepción se almacenen en el módulo de ingesta, se considerará que la configuración principal es la correcta y se procederá a exportar tal configuración al entorno de producción.
+
+La fase de verificación de verificación del subsistema de transformación de eventos, consiste en configurar en local una máquina virtual con el subsistema de recolección y envío de eventos a la cual se van a ir enviando eventos, tales eventos van a ser consumidos por la aplicación de procesado que hayamos programado y por Logstash, redirigiremos la salida de tales programas a la consola para verificar que la transformación es la correcta, una vez se obtengan los datos esperados, se procederá a desplegar las configuraciones en entornos de producción.
+
+La fase de verificación de la integración con JIRA y ES Stack consiste en montar en local los tres subsistemas, un nodo con JIRA y un nodo con toda la ES Stack, refinar las configuraciones de los módulos hasta que se consiga, recolectar, enviar, recibir, ingerir, transformar y cargar un evento en JIRA y en la ES Stack. En JIRA se tendrá que generar un ticket con información sobre el evento, en ES Stack, Logstash ya ha hecho una transformación del evento, lo pasará a ElasticSearch y Kibana será capaz de consumir el evento apuntando a ElasticSearch. Una vez se consigue el comportamiento deseado, se podrán exportar las configuraciones a los entornos de producción.
+
+Una vez estén todos los módulos en producción también se va a testear que cumpla el comportamiento esperado. Para ello se generarán una serie de eventos, los cuales han de seguir el pipeline hasta llegar a JIRA y Kibana, si JIRA y Kibana muestran lo deseado se puede concluir el testeo.
+
+Además de tales pruebas y para asegurar el correcto avance del diseño del proyecto, se mantendrá un contacto frecuente con el director para que vaya dando su visto bueno. Todas las pruebas y tests las llevará a cabo el desarrollador del proyecto.
+
+\section{Cambios de metodología con respecto la propuesta}
+
+El método de trabajo y las herramientas de seguimiento no han cambiado puesto que están siendo útiles y el trabajo se ha desarrollado aún más rápido de lo que se había planteado. Lo que ha cambiado con respecto la primera entrega son los métodos de evaluación, se ha profundizado más en como se va a evaluar el trabajo producido, era necesario puesto que los métodos de evaluación son los que pueden ayudar a encontrar posibles fallos y es importante profundizar en como va a ser su ejecución.
+

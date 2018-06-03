@@ -1,0 +1,222 @@
+\chapter{Gestión económica final}\label{cap:gestionec}
+\section{Gastos directos}
+\subsection{Presupuesto recursos humanos}
+El desarrollador de este proyecto asumirá las tareas de jefe de proyecto, consultor y Site Reliability Engineer (SRE) \cite{Tfg:sre}. Aun siendo así, los cálculos de están hechos basados en precios actuales de mercado y diferenciando cada rol. En el Tabla \ref{tab:preprechum} vemos tales cálculos.
+
+Con relación a las tareas expuestas en el diagrama de Gantt \ref{fig:gantt} de \ref{cap:ganttanex}, al jefe de proyecto le corresponden las tareas de aprendizaje (GEP también está incluido en esta tarea), al consultor le corresponden las tareas de delimitación y al SRE las restantes.
+
+
+\begin{table}[H]\label{tab:preprechum}
+	\centering
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		\textbf{Rol}              & \textbf{Horas} & \textbf{Precio por hora}         & \textbf{Precio total}  \\ \hline
+		\textbf{Jefe de proyecto} & 192 h          & 27 €/h \cite{Tfg:projectmanager} & 5.184 €                \\ \hline
+		\textbf{Consultor}        & 42 h           & 20 €/h \cite{Tfg:itconsultant}   & 840 €                  \\ \hline
+		\textbf{SRE}              & 258 h          & 34 €/h \cite{Tfg:sresalary}      & 8.772 €                \\ \hline
+		\multicolumn{3}{|l|}{\textbf{Total}} & \textbf{\underline{14.796 €}}                                   \\ \hline
+	\end{tabular}
+	\caption{Presupuesto recursos humanos}
+\end{table}
+
+
+\textbf{\underline{Presupuesto total recursos humanos = 14.796 €}}
+
+\subsection{Presupuesto recursos hardware}
+Para llevar a cabo el proyecto y como se mostraba en la sección \ref{cap:recfis}, se va a utilizar una serie de recursos físicos. En el caso del hardware encontramos cuatro elementos, la computadora Lenovo Y700, el celular Xiaomi MI A1, el servidor remoto GitHub y los servidores de producción. 
+
+Es interesante comentar que para los servidores de producción se va a utilizar Amazon Web Service (AWS) \cite{Tfg:aws}, por lo que no se pagará por la adquisición de los servidores sino por su uso por hora, supondremos para hacer los cálculos que durante el desarrollo del proyecto vamos a utilizarlos todas las horas que dura este. No se contará nada más a parte de su coste por horas. El número de instancias es una previsión dado que aún no se ha llegado a la fase del proyecto en que se tengan que decidir las máquinas de producción. Como el precio es bajo demanda, no se va a calcular el tiempo de amortización de los servidores de producción ya que el coste del hardware por hora real ya es el que se paga. 
+
+En el Tabla \ref{tab:prepaws} se muestran las máquinas a utilizar con el gasto total contando que están siempre encendidas a partir de la etapa Desarrollo del sistema.
+
+\begin{table}[H]\label{tab:prepaws}
+	\centering
+	\begin{tabular}{|l|l|l|l|l|}
+		\hline
+		\textbf{Instancia}  & \textbf{Número de instancias} & \textbf{Precio por hora} & \textbf{Horas} & \textbf{Precio total} \\ \hline
+		\textbf{r4.xlarge}  & 5                             & 0,25 €/h \cite{Tfg:ec2price} & 270 h          & 337,5 €               \\ \hline
+		\textbf{r4.large}   & 3                             & 0,12 €/h \cite{Tfg:ec2price} & 270 h          & 97,2 €                \\ \hline
+		\textbf{c5.2xlarge} & 3                             & 0,33 €/h \cite{Tfg:ec2price} & 270 h          & 267,3 €               \\ \hline
+		\textbf{t2.small}   & 1                             & 0,02 €/h \cite{Tfg:ec2price} & 270 h          & 5,4 €                 \\ \hline
+		\textbf{t2.micro}   & 1                             & 0,01 €/h \cite{Tfg:ec2price} & 270 h          & 2,7 €                 \\ \hline
+		\multicolumn{4}{|l|}{\textbf{Total}} & \textbf{\underline{710,1 €}}                                                   \\ \hline
+	\end{tabular}
+	\caption{Presupuesto AWS}
+\end{table}
+
+En el caso de GitHub, se utilizará la capa gratuita, por lo que tampoco se va a calcular la amortización.
+
+En el Tabla \ref{tab:preprechw} se muestra el presupuesto final de los recursos hardware con el cálculo de la amortización. Para calcular la amortización en el Tabla \ref{tab:preprechw} como en el Tabla \ref{tab:preprecsw} se han hechos los siguientes supuestos y utilizado la siguiente fórmula:
+
+\label{eq:amortizacion}
+\begin{align*}
+Amortización = Hp * \frac{Pp}{Av*365*Hd} \\
+Hp = Horas \; del \; duración \; del \; proyecto. \\
+Pp = Precio \; del \; producto. \\
+Av = Años \; de \; vida \; útil \; del \; producto. \\
+Hd = Horas \; al \; día \; que \; se \; utiliza \; el \; producto \; (suponemos \; siempre \; 8h). \\
+\end{align*}
+
+\begin{table}[H]\label{tab:preprechw}
+	\centering
+	\begin{tabular}{|l|l|l|l|l|}
+		\hline
+		\textbf{Producto}               & \textbf{Unidades} & \textbf{Precio} & \textbf{Vida} & \textbf{Amortización} \\ \hline
+		\textbf{Lenovo Y700}            & 1                 & 1.099 € \cite{Tfg:ideapad} & 3 años        & 52,69 €               \\ \hline
+		\textbf{Xiaomi MI A1}           & 1                 & 229 € \cite{Tfg:mia1}      & 3 años        & 10,98 €               \\ \hline
+		\textbf{GitHub}                 & -                 & 0 €             & -             & 0 €                   \\ \hline
+		\textbf{Servidores producción}  & -                 & 710,1 €         & -             & 710,1 €               \\ \hline
+		\multicolumn{4}{|l|}{\textbf{Total}} & \textbf{\underline{773,77 €}}                                        \\ \hline
+	\end{tabular}
+	\caption{Presupuesto recursos hardware}
+\end{table}
+
+\textbf{\underline{Presupuesto total recursos hardware = 773,77 €}}
+
+\subsection{Presupuesto recursos software}
+El único software del que se ha de pagar licencia es JIRA, necesario para la tarea Integración con JIRA del diagrama de Gantt de la sección 9.2. La licencia que se va a comprar es una en que nosotros hemos de almacenar JIRA en servidores propios de la empresa y pueden utilizar el software hasta 10 personas. En el Tabla \ref{tab:preprecsw} se muestra el cálculo del presupuesto de los recursos software.
+
+\begin{table}[H]\label{tab:preprecsw}
+	\centering
+	\begin{tabular}{|l|l|l|l|l|}
+		\hline
+		\textbf{Producto} & \textbf{Unidades} & \textbf{Precio} & \textbf{Vida} & \textbf{Amortización} \\ \hline
+		\textbf{JIRA}     & 1                 & 8 € \cite{Tfg:jiraprice} & 3 años        & 0,38 €                \\ \hline
+		\multicolumn{4}{|l|}{\textbf{Total}} & \textbf{\underline{0,38 €}}                               \\ \hline
+	\end{tabular}
+	\caption{Presupuesto recursos software}
+\end{table}
+
+\subsection{Total presupuesto gastos directos}
+En el Tabla \ref{tab:preptotal} se muestra el presupuesto total de los gastos directos del proyecto.
+
+\begin{table}[H]\label{tab:preptotal}
+	\centering
+	\begin{tabular}{|l|l|}
+		\hline
+		\textbf{Tipo}                          & \textbf{Coste}                   \\ \hline
+		\textbf{Presupuesto recursos humanos}  & 14.796 €                         \\ \hline
+		\textbf{Presupuesto recursos hardware} & 773,77 €                         \\ \hline
+		\textbf{Presupuesto recursos software} &0,38 €                            \\ \hline
+		\textbf{Total}                         & \textbf{\underline{15.570,15 €}} \\ \hline
+	\end{tabular}
+	\caption{Presupuesto total gastos directos}
+\end{table}
+
+\section{Gastos Indirectos}
+
+Los principales gastos indirectos del proyecto son el consumo eléctrico y la conexión a Internet. 
+
+Para el cálculo del consumo eléctrico se han utilizado los siguientes datos:
+
+\begin{itemize}
+	\item \textbf{Precio del kWh en España:} 0.10813 €/kWh (Como precio de consumo eléctrico se ha tomado el precio medio del 18 de marzo de 2018 \cite{Tfg:luz} ).
+	\item \textbf{Horas de consumo eléctrico:} 420h.
+	\item \textbf{Potencia consumida:} 60 + 6*58 = 408 W (Potencia del portátil 60 W, Potencia de los 6 fluorescentes del despacho 58 W).
+\end{itemize}
+
+\label{eq:gastoelec}
+\begin{align*}
+0,408 kW * 420 h * 0,10813 \text{€}/kWh = 18,5 \text{€}
+\end{align*}
+
+Para el cálculo de la conexión a Internet se han utilizado los siguientes datos:
+
+\begin{itemize}
+	\item \textbf{Precio fibra óptica 100mb Movistar:} 45€/mes.
+	\item \textbf{Horas de duración del proyecto:} 420h.
+	\item \textbf{1 mes:} 30 días.
+	\item \textbf{1 día:} 8h hábiles.
+\end{itemize}
+
+\label{eq:costeint}
+\begin{align*}
+Coste \; de \; Internet = 420h * \frac{45 \text{€}/mes}{30 \; días*8h} = 78,75 \text{€}
+\end{align*}
+
+\subsection{Total presupuesto gastos indirectos}
+
+En el Tabla \ref{tab:prepgastosindi} vemos el presupuesto total de los gastos indirectos del proyecto.
+
+\begin{table}[H]\label{tab:prepgastosindi}
+	\centering
+	\begin{tabular}{|l|l|}
+		\hline
+		\textbf{Producto}     & \textbf{Coste}                \\ \hline
+		\textbf{Electricidad} & 18,5 €                        \\ \hline
+		\textbf{Internet}     & 78,75 €                       \\ \hline
+		\textbf{Total}        & \textbf{\underline{97,25 €}} \\ \hline
+	\end{tabular}
+	\caption{Presupuesto total gastos indirectos}
+\end{table}
+
+\section{Total presupuesto gastos directos e indirectos}
+
+En el Tabla \ref{tab:preptotaldirindi} vemos el presupuesto total de gastos directos e indirectos del proyecto.
+
+\begin{table}[H]\label{tab:preptotaldirindi}
+	\centering
+	\begin{tabular}{|l|l|}
+		\hline
+		\textbf{Tipo}              & \textbf{Coste}                   \\ \hline
+		\textbf{Gastos directos}   & 15.570,15 €                      \\ \hline
+		\textbf{Gastos indirectos} & 97,25 €                          \\ \hline
+		\textbf{Total}             & \textbf{\underline{15.667,40 €}} \\ \hline
+	\end{tabular}
+	\caption{Presupuesto total de gastos directos e indirectos}
+\end{table}
+
+\section{Contingencia}
+Dado que el desarrollador del proyecto es la primera vez que se enfrenta a muchas de las tecnologías utilizadas para el desarrollo del proyecto y aunque las tareas están bien detalladas, se destinará un 20\% del valor total del presupuesto a contingencia. En el Tabla \ref{tab:contingencia} muestra lo que supone esta contingencia.
+
+\begin{table}[H]\label{tab:contingencia}
+	\centering
+	\begin{tabular}{|l|l|}
+		\hline
+		\textbf{Contingencia} & \textbf{Total}                  \\ \hline
+		20\%                  & \textbf{\underline{3.133,48 €}} \\ \hline
+	\end{tabular}
+	\caption{Calculo de contingencia}
+\end{table}
+
+\section{Control de gestión}
+Se han localizado dos posibles imprevistos, su solución y el gasto que supondrían. A parte de los dos imprevistos encontrados, podrían ocurrir otros, pero ninguna de ellos supondría un gasto de recursos hardware. El gasto extra a nivel de recursos humanos ya se ha contemplado en el Tabla \ref{tab:imprevistos} y el gasto a nivel de software sería nulo ya que se buscarían alternativas gratuitas si hiciera falta. La tabla 10 muestra con que porcentaje pueden ocurrir los imprevistos y el impacto económico para el proyecto.
+
+\begin{table}[H]\label{tab:imprevistos}
+	\centering
+	\begin{tabular}{|l|l|l|l|l|}
+		\hline
+		Imprevisto                           & Solución   & Probabilidad     & Coste    & Coste total \\ \hline
+		Avería del equipo                    & Solución 1 & 10 \%            & 1.099 €  & 109,9 €     \\ \hline
+		Retraso de alguna fase del proyecto  & Solución 2 & 10 \%            & 11.696 € & 1.169,6 €   \\ \hline
+		\multicolumn{4}{|l|}{\textbf{Total}} & \textbf{\underline{1.279,5 €}}                         \\ \hline
+		                                                                        
+	\end{tabular}
+	\caption{Imprevistos del proyecto}
+\end{table}
+
+Solución 1: Comprar otro similar
+
+Solución 2: Aumento de las horas trabajadas por el SRE (8h/día). No se recalcula el coste de luz para facilitar los cálculos.
+
+\section{Coste total}
+
+En el Tabla \ref{tab:totaltotal} se ve el presupuesto del coste total del proyecto. El total con IVA es de \textbf{\underline{24.297,26 €}}
+
+\begin{table}[H]\label{tab:totaltotal}
+	\centering
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\multirow{4}{*}{}    & \textbf{Tipo}                 & \textbf{Coste}       \\ \hline
+		& Directo e indirecto   & 15.667,40 € \\ \hline
+		& Contingencia          & 3.133,48 €  \\ \hline
+		& Imprevistos           & 1.279,5 €   \\ \hline
+		\multicolumn{2}{|l|}{\textbf{Total sin IVA}}            & 20.080,38 € \\ \hline
+		\multicolumn{2}{|l|}{\textbf{Total con el 21\% de IVA}} & \textbf{\underline{24.297,26 €}} \\ \hline
+	\end{tabular}
+    \caption{Coste total del proyecto}
+\end{table}
+
+
+
+
