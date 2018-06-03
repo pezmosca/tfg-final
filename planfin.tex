@@ -1,4 +1,4 @@
-\chapter{Planificación inicial del proyecto}
+\chapter{Planificación final}\label{cap:planificacion}
 \section{Identificación de tareas}
 \textbf{Aprendizaje:} El desarrollador del proyecto es la primera vez que se enfrenta a elementos de Big Data. Necesita un tiempo para analizar el estado del arte del campo del Big Data antes de ponerse a diseñar y organizar el sistema, por lo que la tarea se basa en adquirir los conocimientos esenciales del mundo del Big Data processing y del mundo de la recolección de eventos en aplicaciones ubicuas, en especial dispositivos Android. Del mundo del Big Data processing se profundizará sobretodo en los diferentes agentes que intervienen para poder luego diseñar una solución al problema propuesto por el proyecto. Esta tarea no necesita ningún recurso dado que se utilizará información libre de Internet.
 
@@ -20,39 +20,39 @@
 \end{itemize}
 
 
-\textbf{Integración del sistema con JIRA:} El sistema se ha de integrar con JIRA para ofrecer información de valor a la empresa. Ésta integración se tendrá que hacer una vez el sistema de procesado de eventos esté en marcha y produzca datos. A nivel de recursos, esta tarea necesita una licencia de JIRA. Esta tarea se puede dividir en las subtareas siguientes:
+\textbf{Integración del sistema con JIRA y Elastic Search Stack:} El sistema se ha de integrar con JIRA y con la Elastic Search Stack para ofrecer información de valor a la empresa. Ésta integración se tendrá que hacer una vez el sistema de procesado de eventos esté en marcha y produzca datos. A nivel de recursos, esta tarea necesita una licencia de JIRA, para lo relacionado con Elastic Search (ES) se utilizarán las versiones libres. Esta tarea se puede dividir en las subtareas siguientes:
 \begin{itemize}
 	
-	\item \textbf{Aprendizaje:} Documentarse sobre cómo consumir datos generados por el sistema en JIRA.
+	\item \textbf{Aprendizaje:} Documentarse sobre cómo consumir datos generados por el sistema en JIRA y en la ES stack.
 	
 	\item \textbf{Análisis de implementación:} Especificar las funcionalidades y requisitos de la integración así como, concebir la mejor manera para llevarla a cabo.
 	
-	\item \textbf{Implementación:} Programación del código que hará posible la integración de JIRA con el sistema de procesado de eventos.
+	\item \textbf{Implementación:} Programación del código que hará posible la integración de JIRA y ES con el sistema de procesado de eventos.
 	
-	\item \textbf{Testeo:} La integración de JIRA se someterá a una serie de escenarios posibles en local para comprobar si cumple el comportamiento esperado.
+	\item \textbf{Testeo:} La integración de JIRA y ES se someterá a una serie de escenarios posibles en local para comprobar si cumple el comportamiento esperado.
 	
 \end{itemize}
 
 \textbf{Despliegue del sistema:} Despliegue de las partes del sistema que aún no estén en producción. A nivel de recursos, esta tarea necesita los servidores necesarios para que el sistema esté totalmente desplegado.
 
-\textbf{Testeo del sistema en producción:} Todo el sistema desplegado, incluida la integración de JIRA, será sometido a una serie de escenarios posibles para comprobar que los diferentes elementos del sistema se relacionan correctamente entre ellos y se producen los resultados esperados.
+\textbf{Testeo del sistema en producción:} Todo el sistema desplegado, incluida la integración de JIRA y ES, será sometido a una serie de escenarios posibles para comprobar que los diferentes elementos del sistema se relacionan correctamente entre ellos y se producen los resultados esperados.
 
 \section{Tabla de tiempo}
-En la Tabla 1 se muestran de forma general las tareas a realizar y el tiempo que se va a emplear para realizar tales tareas, en la sección 6.6 se especificarán con más detalle.
+En el Tabla \ref{tabla:tiempotareas} se muestran de forma definitiva las tareas a realizar y el tiempo que se va a emplear para realizar tales tareas, en la sección \ref{cap:gantt} se especificarán con más detalle.
 
-\begin{table}[H]
+\begin{table}[H]\label{tabla:tiempotareas}
 	\centering
 	\begin{tabular}{|l|l|}
 		\hline
 		\textbf{Tarea}                               & \textbf{Horas empleadas}                  \\ \hline
 		Aprendizaje                                  & \textbf{150 horas}                        \\ \hline
-		Subsistema de recolección y envío de eventos & \textbf{90 horas}                         \\ \hline
+		Subsistema de recolección y envío de eventos & \textbf{66 horas}                         \\ \hline
 		Subsistema de recepción e ingesta de eventos & \textbf{90 horas}                         \\ \hline
-		Subsistema de transformación de eventos      & \textbf{90 horas}                         \\ \hline
-		Integración con JIRA                         & \textbf{90 horas}                         \\ \hline
-		Despliegue del sistema                       & \textbf{15 horas}                         \\ \hline
-		Testeo del sistema en producción             & \textbf{15 horas}                         \\ \hline
-		\textbf{Total}                               & \textbf{540 horas}                        \\ \hline
+		Subsistema de transformación de eventos      & \textbf{60 horas}                         \\ \hline
+		Integración con JIRA y ES Stack              & \textbf{30 horas}                         \\ \hline
+		Despliegue del sistema                       & \textbf{6 horas}                          \\ \hline
+		Testeo del sistema en producción             & \textbf{12 horas}                         \\ \hline
+		\textbf{Horas totales del proyecto}          & \underline{\textbf{420 horas}}            \\ \hline
 	\end{tabular}
 	\caption{Tiempo de realización esperado de las tareas}
 \end{table}
@@ -64,10 +64,30 @@ Por razones de diseño, es necesario empezar por el subsistema de recepción e i
 
 El sistema de recolección y envío de eventos ha de preceder al sistema de transformación ya que depende de cómo se recolectan los datos hará falta un tipo concreto de sistema u otro.
 
-La integración con JIRA no tiene sentido hasta que todos los subsistemas no se hayan llevado a cabo.
+La integración con JIRA y ES Stack no tiene sentido hasta que todos los subsistemas no se hayan llevado a cabo.
 
-\section{Diagrama de Gantt}
-En el anexo 9.2 se encuentra el diagrama de Gantt donde se especifican cada una de las tareas, su fecha de inicio y fin, su duración en horas y el coordinador o responsable de cada tarea. Se ven también las restricciones temporales de cada tarea.
+\section{Recursos}
+\subsection{Recursos humanos}
+Se dispondrá de un desarrollador que es quién lleve a cabo el proyecto. El desarrollador de este proyecto asumirá las tareas de jefe de proyecto, consultor y Site Reliability Engineer (SRE) \cite{Tfg:sre}. El tiempo en horas por semana que dedicará el desarrollador al proyecto serán de 30 horas por semana. Es una medida aproximada que podrá variar por la influencia de diversos factores tales como la carga de trabajo que tenga el desarrollador por causas externas al proyecto.
+
+También se dispone de un director, el cual podrá ser consultado por el desarrollador.
+
+\subsection{Recursos físicos}\label{cap:recfis}
+\begin{description}
+
+	\item [Lenovo Y700] Computadora donde se desarrollará el proyecto y se harán las pruebas parciales antes de desplegar el sistema. Se utilizará también para escribir la memoria.
+	
+	\item [Xiaomi MI A1] Celular con el que se harán las pruebas de recolección y envío de eventos.
+	
+	\item [GitHub] Servidor remoto de control de versiones. Se utilizará para almacenar las diferentes versiones del software que se desarrolle.
+	
+	\item [JIRA] Herramienta para administración de tareas de un proyecto. Se publicará documentación de los diversos módulos en ella.
+	
+	\item [Servidores de producción] En la sección de Gestión Económica se especifican las máquinas necesarias así como el coste de utilizarlas.
+\end{description}
+
+\section{Diagrama de Gantt}\label{cap:gantt}
+En el Anexo \ref{cap:ganttanex} se encuentra el diagrama de Gantt Figura \ref{fig:gantt} donde se especifican cada una de las tareas, su fecha de inicio y fin, su duración en horas y el coordinador o responsable de cada tarea. Se ven también las restricciones temporales de cada tarea.
 
 Las tareas marcadas en rojo indican un riesgo alto a que causen posibles desviaciones.
 Las tareas marcadas en azul un riesgo medio a que causen posibles desviaciones.

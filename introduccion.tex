@@ -1,5 +1,6 @@
-\chapter{Contextualización del proyecto}
+\chapter{Introducción y motivaciones}
 
+\section{Introducción}
 Este proyecto es un Trabajo de Final de Grado de la modalidad C de la especialidad Tecnologías de la Información. El presente trabajo se hace en colaboración con la empresa LudiumLab S.L. la cual es propietaria y creadora del servicio de cloud gaming Play Everywhere. Este servicio consiste en permitir a sus usuarios jugar a juegos diseñados para Windows PC en otros dispositivos como podrían ser smartphones, tabletas o navegadores web. Dado que la empresa da servicio a dispositivos ubicuos, tiene la necesidad de recolectar y procesar alertas para que sus programadores corrijan comportamientos anómalos de la aplicación que se ejecuta en dichos dispositivos. Por lo que este trabajo será un caso de estudio para dar solución a la problemática de la empresa de recolectar y procesar alertas para darle información de valor a sus programadores.
 
 \section{Contexto}
@@ -13,14 +14,11 @@ Big data \cite{Tfg:bigdata} se refiere al concepto de conjuntos de datos tan mas
 
 Existen dos técnicas principales para aplicar el ETL en Big Data \cite{Tfg:batchstream}. La primera es el Batch Processing, que consiste en transformar datos que ya han estado almacenados durante un tiempo. La segunda es el Stream Processing, la cual consiste en transformar los datos en tiempo real, es decir, sin que los datos pasen mucho tiempo almacenados antes de ser transformados. Se encuentran dos arquitecturas de Big Data distinguidas que aplican las técnicas mencionadas, una es la arquitectura Lambda \cite{Tfg:lambda}, la cual integra las dos técnicas, y la otra la arquitectura Kappa \cite{Tfg:kappa} en la cual se utiliza mayoritariamente el Stream Processing.
 
+\section{Descripción de los sistemas de alertas existentes}
 
-\section{Stakeholders}
-Los actores principales de este proyecto son los siguientes:
+\section{Problema, objetivos y alcance}
+\input{fproblema}
+\input{alcance}
 
-\begin{enumerate}
-	\item \textbf{Director, ponente y desarrollador.} Son los actores que van a hacer que el trabajo cumpla los objetivos propuestos en el tiempo estipulado. El director Juan José Martín Pastor y el ponente Javier Verdú Mulá guiarán el desarrollo del trabajo así como orientar al desarrollador, Antonio Arellano Moral, quien se encargará del diseño y del desarrollo del sistema.
-	
-	\item \textbf{Audiencia.} El proyecto va dirigido al equipo de desarrolladores y al equipo de operaciones de LudiumLab S.L. Ya que serán ellos quien hagan el uso efectivo del sistema.
-	
-	\item \textbf{Beneficiarios.} Los beneficiarios del proyecto serán la empresa en general, ya que parte del éxito de la empresa consiste en el buen funcionamiento de sus aplicaciones, y el equipo de desarrolladores y de operaciones en particular, ya que el sistema les facilitará el identificar errores y comportamientos anómalos.
-\end{enumerate}
+\section{Estado del arte}
+\input{soa}

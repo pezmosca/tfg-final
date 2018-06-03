@@ -1,5 +1,3 @@
-\section{Estado del arte}
-
 \subsection{Recolección de eventos en Android}
 En Android es posible ver crashlogs, syslogs o logs de aplicaciones si se trabaja conectado al dispositivo en modo depuración, este sistema para el propósito del proyecto no es útil dado que lo que se pretende es enviar tales eventos sin necesidad de conectar de forma física el dispositivo ubicuo a otro sistema. 
 
@@ -41,9 +39,5 @@ Tanto Spark Streaming como Kafka Streams son tecnologías de propósito general,
 \subsection{Procesado de eventos como servicio}
 Es posible hallar empresas que ya ofrecen la solución del seguimiento y procesado de errores en las aplicaciones como un servicio, este es el caso de Crashlytics \cite{Tfg:crashlytics} o Datadog \cite{Tfg:datadog}. Existe una solución de Stream Processing como servicio de Amazon, Amazon Kinesis \cite{Tfg:kinesis}, pero no resuelve el tema de la recolección de eventos, solo su procesado.
 
-\subsection{Conclusiones}
-Una vez analizado el estado del arte se concluye que para la recolección de eventos se utilizarán librerías ya existente y se adaptarán ciertos aspectos de estas para que se ajusten a las necesidades de la empresa, tales librerías ya implementan los requisitos buscados y se adaptan fácilmente al uso que se quiere hacer con ellas. Las librerías ACRA y Logback son buenas candidatas para ser utilizadas.
-
-Para el procesado de eventos NO se contratará ningún servicio sino que basándose en casos de uso ya existentes se diseñará, implementará y desplegará una nueva arquitectura de Big Data que se adapte a las necesidades de la empresa. No se ve conveniente contratar ningún servicio dado que es preferible ser dueño de los datos y la arquitectura para ser más flexibles a cambios en el modo de tratar los datos y el uso que se va a hacer de ellos. El uso de una arquitectura basada en el Stream Processing parece una buena aproximación para procesar los eventos, dado que tales eventos pueden contener información crítica y un procesado de baja latencia puede ayudar a corregir errores en las aplicaciones ubicuas en poco tiempo. Las tecnologías de procesado a utilizar serán Kafka Streams y Logstash, puesto que Kakfka Streams nos permite un despliegue rápido además de ser una herramienta potente de procesado, la decisión de utilizar Logstash viene a raíz de que en el proyecto se busca integrarse con Elastic Search y Logstash parece un buen candidato tanto para tal integración como para unificar toda la capa de eventos.
 
 
