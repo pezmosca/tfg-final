@@ -1,1 +1,12 @@
 \chapter{Especificación}
+
+\section{Arquitectura del sistema}
+La arquitectura del sistema se divide en tres partes o subsistemas, cada subsistema tiene una tarea diferenciada dentro del sistema, se puede encontrar una relación entre cada subsistema y las diferentes fases del proceso ETL. Los subsistemas son los siguientes:
+
+\begin{itemize}
+	\item \textit{Subsistema de recolección y envío}: Está compuesto de dos módulos, el de recolección y el de envío. El módulo de recolección se encarga de recoger los eventos en el dispositivo ubicuo. El módulo de envío se encarga de enviar los eventos recogidos por el módulo de recolección al módulo de recolección del subsistema de recepción e ingesta. Los dos módulos actúan en el dispositivo ubicuo y están implementados por librerías.
+	
+	\item \textit{Subsistema de recepción e ingesta}: Está compuesto por dos módulos, el de recepción y el de ingesta. El módulo de recepción se encarga de centralizar la ingesta de eventos a un único punto de entrada, recibe los eventos que le envía el módulo de envío. El módulo de ingesta se encarga de recibir los eventos del módulo de recepción y almacenarlos como mínimo hasta que el módulo de transformación los consuma.
+
+	\item  \textit{Subsistema de transformación}:  Está compuesto por dos módulos, el de transformación y el de almacenamiento. El módulo de transformación se encarga de transformar los eventos que consume del módulo de ingesta y de enviarlos donde corresponda que puede ser, de nuevo al módulo de ingesta, a Elastic Search o al módulo de almacenamiento. El módulo de almacenamiento recibe los eventos transformados del módulo de transformación y los almacena donde corresponda.
+\end{itemize}
