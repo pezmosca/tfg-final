@@ -1,1 +1,40 @@
 \chapter{Subsistema de recolección y envío}
+
+\section{Arquitectura del sistema}
+El subsistema de recolección y envío está formado por dos módulos, los cuales se ejecutan en el dispositivo ubicuo. Esta es una división a nivel lógico y existe para reducir a problemas más simples el problema general, aunque nada impide que una herramienta pueda implementar dos módulos.
+
+%%Figura de la arquitectura
+
+\subsection{Módulo de recolección}
+El módulo de recolección es el encargado de recoger los eventos en el dispositivo ubicuo, para que luego el módulo de envío pueda consumirlos. 
+\\\\
+En concreto para este proyecto los eventos que se recogerán serán logs y crashlogs. Los logs servirán para llevar a cabo la monitorización y los crashlogs el seguimiento de errores.
+\\\\
+Para generar logs se han de explicitar en el código ahí donde el programador considere adecuado, los crashlogs se generan automáticamente cuando la aplicación termina inesperadamente.
+\\\\
+Los logs se recolectan en tiempo de ejecución y se almacenan en el dispositivo ubicuo para que el módulo de envío los consuma cuando sea pertinente.
+\\\\
+Los crashlogs se recolectan cuando la aplicación termina inesperadamente y no se almacenan en el dispositivo, sino que de forma inmediata el módulo de envío los consume. No se almacenan en el dispositivo puesto que, se considera que tienen más prioridad que los logs, y porque no se puede asegurar que se lleguen a almacenar en el dispositivo o que la aplicación se pueda volverse a abrir después de que el crash haya sucedido. Así pues se invoca directamente al módulo de envío para que consuma tal crashlog.
+
+\subsection{Módulo de envío}
+El módulo de envío es el encargado de consumir los eventos que ha recolectado el módulo de recolección y enviar tales eventos al módulo de recepción del subsistema de recepción e ingesta.
+\\\\
+El envío de los logs lo hace cuando la aplicación se cierra correctamente. Es entonces cuando consume los logs generados por la aplicación almacenados en el dispositivo y los envía al módulo de recepción.
+\\\\
+El envío de los crashlogs lo hace cuando la aplicación se ha cerrado inesperadamente. Es entonces cuando consume el crash generado y lo envía.
+
+\section{Herramientas utilizadas}
+
+Las herramientas utilizadas para llevar a cabo los módulos han sido librerías para Android.
+
+\subsection{Módulo de recolección}
+
+Para llevar a cabo la recolección de logs se ha utilizado la librería Logback\cite{Tfg:logbackandroid} en su versión para Android. Esta librería permite definir en que punto del programa se quiere generar un log y redirigir la salida del log a diferentes destinos. Esta librería también nos permite editar el formato de salida del log así como la metainformación que se añade al log.
+
+Para llevar a cabo la recolección de crashlogs se ha utilizado la librería ACRA\cite{Tfg:acra}. Esta librería detecta cuando una aplicación ha acabado inesperadamente y genera un crashlog con información de valor para reconocer que puede haber pasado. Esta librería también permite redirigir la salida del crashlog a diferentes destinos, editar el formato de salida del crashlog y la metainformación que se añade al crashlog.
+
+\subsection{Módulo de envío}
+
+Para llevar a cabo el envío de logs se ha utilizado la librería OkHttp\cite{Tfg:okhttp} que permite hacer peticiones HTTP.
+\\\\
+Para llevar a cabo el envío de crashlogs se ha utilizado la funcionalidad de ACRA que permite redirigir el crashlog al destino que queramos, y nos lo permite hacer mediante una petición HTTP.
