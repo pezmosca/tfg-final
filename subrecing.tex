@@ -1,1 +1,42 @@
 \chapter{Subsistema de recepción e ingesta}
+
+\section{Arquitectuta del subsistema}
+
+\subsection{Módulo de recepción}
+
+El módulo de recepción en el encargado de recibir los eventos módulo de envío y de enviárselos al módulo de ingesta. Por lo que este módulo no almacena de forma persistente los eventos recibidos.
+\\\\
+Se ha añadido un módulo entre el módulo de envío y el módulo de ingesta para centralizar a un punto de entrada y una metodología de envío universales a todos los dispositivos ubicuos de la empresa. De esta manera también, se facilita el que nuevos dispositivos ubicuos, diferentes a los que la empresa utiliza, puedan integrarse con el sistema.
+
+\subsection{Módulo de ingesta}
+
+El módulo de ingesta es el encargado de recibir los eventos del módulo de recepción y dejar a disposición los datos al módulo de transformación para que este los consuma. Por lo que este módulo almacena de forma persistente los eventos recibidos.
+\\\\
+Se ha añadido un módulo entre el módulo de recepción y el módulo de transformación por dos razones:
+
+\begin{enumerate}
+	\item No saturar al módulo de transformación.
+	\item No perder eventos si el módulo de transformación está caído.
+\end{enumerate}
+
+Puesto que el módulo de ingesta sirve los datos para que sean consumidos, el módulo de transformación los consume cuando pueda consumirlos, de esta manera si estaba caído, y puesto que módulo de ingesta almacena los datos de forma persistente, los consumirá una vez esté otra vez arriba.
+
+
+\section{Infraestructura del subsistema}
+
+\subsection{Módulo de recepción}
+El módulo de recepción lo integra una API REST que sea capaz de recibir los eventos y enviarlos al módulo de ingesta. Se ha escogido una API REST, puesto 
+
+\subsection{Módulo de ingesta}
+El módulo de ingesta lo integra una streaming platform, una especie de buffer, que es capaz de recibir los eventos y almacenarlos en disco hasta que el módulo de transformación los consuma.
+
+
+\section{Herramientas utilizadas}
+
+\subsection{Módulo de recepción}
+Kafka Rest Proxy\cite{Tfg:kafkarestproxy}
+
+\subsection{Módulo de ingesta}
+Apache Kafka\cite{Tfg:kafka}
+
+

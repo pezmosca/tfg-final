@@ -1,7 +1,7 @@
 \chapter{Subsistema de recolección y envío}
 
-\section{Arquitectura del sistema}
-El subsistema de recolección y envío está formado por dos módulos, los cuales se ejecutan en el dispositivo ubicuo. Esta es una división a nivel lógico y existe para reducir a problemas más simples el problema general, aunque nada impide que una herramienta pueda implementar dos módulos.
+\section{Arquitectura del subsistema}
+El subsistema de recolección y envío está formado por dos módulos, los cuales actúan en el dispositivo ubicuo. Esta es una división a nivel lógico y existe para reducir a problemas más simples el problema general, aunque nada impide que una herramienta pueda implementar dos módulos.
 
 %%Figura de la arquitectura
 
@@ -28,13 +28,36 @@ El envío de los crashlogs lo hace cuando la aplicación se ha cerrado inesperad
 Las herramientas utilizadas para llevar a cabo los módulos han sido librerías para Android.
 
 \subsection{Módulo de recolección}
-
 Para llevar a cabo la recolección de logs se ha utilizado la librería Logback\cite{Tfg:logbackandroid} en su versión para Android. Esta librería permite definir en que punto del programa se quiere generar un log y redirigir la salida del log a diferentes destinos. Esta librería también nos permite editar el formato de salida del log así como la metainformación que se añade al log.
 
 Para llevar a cabo la recolección de crashlogs se ha utilizado la librería ACRA\cite{Tfg:acra}. Esta librería detecta cuando una aplicación ha acabado inesperadamente y genera un crashlog con información de valor para reconocer que puede haber pasado. Esta librería también permite redirigir la salida del crashlog a diferentes destinos, editar el formato de salida del crashlog y la metainformación que se añade al crashlog.
 
 \subsection{Módulo de envío}
-
 Para llevar a cabo el envío de logs se ha utilizado la librería OkHttp\cite{Tfg:okhttp} que permite hacer peticiones HTTP.
 \\\\
 Para llevar a cabo el envío de crashlogs se ha utilizado la funcionalidad de ACRA que permite redirigir el crashlog al destino que queramos, y nos lo permite hacer mediante una petición HTTP.
+
+\section{Configuración del subsistema}
+
+\subsection{Módulo de recolección}
+
+Del módulo de recolección se han configurado los siguientes factores:
+
+\subsubsection{Metadatos}
+Metadatos hace referencia a toda la información que se recolecta a parte de la información.
+
+
+\begin{itemize}
+	\item Metadatos
+	\item Sintaxis (Estructura) %% De los logs 
+	\item Formato %%JSON
+	\item Destino %% Archivo en el el path de la app, cuando se cierra se borra
+\end{itemize}
+
+%%EL LOG Y EL CRASH COMO ENTE
+
+\subsection{Estructura del sistema}
+
+%%Foto con módulos y herramientas
+
+
