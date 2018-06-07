@@ -2,38 +2,43 @@
 
 \section{Arquitectuta del subsistema}
 
+El subsistema de recepción e ingesta está formado por dos módulos, los cuales actúan fuera del dispositivo ubicuo. Esta es una división a nivel lógico y existe para reducir a problemas más simples el problema general, aunque nada impide que una herramienta implemente dos módulos.
+
 \subsection{Módulo de recepción}
 
-El módulo de recepción en el encargado de recibir los eventos módulo de envío y de enviárselos al módulo de ingesta. Por lo que este módulo no almacena de forma persistente los eventos recibidos.
+El módulo de recepción en el encargado de recibir los eventos que le envía el módulo de envío y de enviárselos al módulo de ingesta. Por lo que este módulo no almacena de forma persistente los eventos recibidos.
 \\\\
-Se ha añadido un módulo entre el módulo de envío y el módulo de ingesta para centralizar a un punto de entrada y una metodología de envío universales a todos los dispositivos ubicuos de la empresa. De esta manera también, se facilita el que nuevos dispositivos ubicuos, diferentes a los que la empresa utiliza, puedan integrarse con el sistema.
+Se ha añadido este módulo para centralizar a un único punto de entrada y tener una metodología de envío universal a todos los dispositivos ubicuos de la empresa. De esta manera también, se facilita el que nuevos dispositivos ubicuos, diferentes a los que la empresa utiliza, puedan integrarse con el sistema.
 
-\subsection{Módulo de ingesta}
+\subsection{Módulo de ingesta} 
 
-El módulo de ingesta es el encargado de recibir los eventos del módulo de recepción y dejar a disposición los datos al módulo de transformación para que este los consuma. Por lo que este módulo almacena de forma persistente los eventos recibidos.
+El módulo de ingesta es el encargado de recibir los eventos del módulo de recepción y dejar a disposición los datos al módulo de transformación. Este módulo almacena de forma persistente y volátil los eventos recibidos.
 \\\\
-Se ha añadido un módulo entre el módulo de recepción y el módulo de transformación por tres razones:
+Se ha añadido un módulo entre el módulo de recepción y el módulo de transformación por cuatro razones:
 
 \begin{enumerate}
+	\item Permitir el reprocesado de los datos.
 	\item No saturar al módulo de transformación.
 	\item No perder eventos si el módulo de transformación está caído.
 	\item Facilitar la integración de nuevos módulos.
 \end{enumerate}
 
-Puesto que el módulo de ingesta sirve los datos para que sean consumidos, el módulo de transformación los consume cuando pueda consumirlos, de esta manera si estaba caído, y puesto que módulo de ingesta almacena los datos de forma persistente, los consumirá una vez esté otra vez arriba.
+%%REPROCESSING!!!!!!
 
-Añadir este módulo de ingesta facilita la integración de nuevos módulos ya que transforma parcialmente los datos recibidos para que sean compatibles con los diferentes módulos que se puedan acoplar. A parte, facilita el enrutamiento de los datos hacia los diferentes módulos que se quieran acoplar. 
+Puesto que el módulo de ingesta sirve los datos para que sean consumidos, el módulo de transformación los consume cuando puede, de esta manera si estaba caído, y puesto que módulo de ingesta almacena los datos de forma persistente, los consumirá cuando vuelva a estar arriba.
+
+Añadir este módulo de ingesta facilita la integración de nuevos módulos ya que transforma parcialmente los datos recibidos para que sean compatibles con los diferentes módulos que se le puedan acoplar. A parte, facilita el enrutamiento de los datos hacia los diferentes módulos que se le quieran acoplar. 
 
 %% porque añadir un módulo de ingesta facilita el añadir nuevos módulos al sistema
 
 
-\section{Infraestructura del subsistema}
+\section{Estructura del subsistema}
 
 \subsection{Módulo de recepción}
-El módulo de recepción lo integra una API REST que sea capaz de recibir los eventos y enviarlos al módulo de ingesta. Se ha escogido una API REST, puesto que la comunicación mediante peticiones REST permite una fácil integración con los dispositivos ubicuos. Utilizar una API REST también ayuda a que el sistema se pueda integrar rápidamente con nuevos dispositivos ubicuos diferentes a los que usa actualmente la empresa.
+El módulo de recepción lo integra una API REST que es capaz de recibir los eventos y enviarlos al módulo de ingesta. Se ha escogido una API REST, puesto que la comunicación mediante peticiones REST permite una fácil integración con los dispositivos ubicuos. Utilizar una API REST también ayuda a que el sistema se pueda integrar rápidamente con nuevos dispositivos ubicuos diferentes a los que usa actualmente la empresa.
 
 \subsection{Módulo de ingesta}
-El módulo de ingesta lo integra una streaming platform, una especie de buffer que almacena los datos sirviéndolos para que otro módulo los consuma. Suple las funciones de un message broker\cite{Tfg:messagebroker} y le añade ciertas funcionalidades. Esta streaming platform es capaz de recibir los eventos y almacenarlos en disco hasta que el módulo de transformación los consuma.
+El módulo de ingesta lo integra una streaming platform, una especie de buffer que almacena los datos sirviéndolos para que otro módulo los consuma. Suple las funciones de un message broker\cite{Tfg:messagebroker} y le añade ciertas funcionalidades. Esta streaming platform es capaz de recibir los eventos y almacenarlos en memoria y en disco.
 
 
 \section{Herramientas utilizadas}
@@ -50,7 +55,7 @@ Para el módulo de ingesta se ha escogido utilizar Apache Kafka\cite{Tfg:kafka} 
 	
 	\item Confiabilidad: Kafka es capaz de tener múltiples consumidores y productores subscritos. En caso de fallo de alguno de los nodos componentes de Kafka, es capaz de balancear automáticamente los consumidores y los productores a nodos componentes funcionales. Aparte, Kafka replica los datos que recibe entre los diferentes nodos componentes.
 	
-	\item Durabilidad: Los mensajes que recibe Kafka los almacena en disco, por lo que aparte de la replicación que hace el propio Kafka, es fácil replicar los datos hacia otro sistema.
+	\item Durabilidad: Los mensajes que recibe Kafka los almacena en disco, por lo que aparte de la replicación de datos que hace el propio Kafka, es fácil replicar los datos hacia otro sistema.
 	
 	\item Escalabilidad: Kafka es capaz de escalar rápido, de forma fácil y en caliente ya que es un sistema distribuido.
 	
