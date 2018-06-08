@@ -8,7 +8,7 @@ El subsistema de recepción e ingesta está formado por dos módulos, los cuales
 
 El módulo de recepción en el encargado de recibir los eventos que le envía el módulo de envío y de enviárselos al módulo de ingesta. Por lo que este módulo no almacena de forma persistente los eventos recibidos.
 \\\\
-Se ha añadido este módulo para centralizar a un único punto de entrada y tener una metodología de envío universal a todos los dispositivos ubicuos de la empresa. De esta manera también, se facilita el que nuevos dispositivos ubicuos, diferentes a los que la empresa utiliza, puedan integrarse con el sistema.
+Se ha añadido este módulo para centralizar a un único punto de entrada y tener una metodología de envío universal a todos los dispositivos ubicuos de la empresa. De esta manera, también se facilita el que nuevos dispositivos ubicuos, diferentes a los que la empresa utiliza, puedan integrarse con el sistema.
 
 \subsection{Módulo de ingesta} 
 
@@ -26,7 +26,7 @@ Se ha añadido un módulo entre el módulo de recepción y el módulo de transfo
 %%REPROCESSING!!!!!!
 
 Puesto que el módulo de ingesta sirve los datos para que sean consumidos, el módulo de transformación los consume cuando puede, de esta manera si estaba caído, y puesto que módulo de ingesta almacena los datos de forma persistente, los consumirá cuando vuelva a estar arriba.
-
+\\\\
 Añadir este módulo de ingesta facilita la integración de nuevos módulos ya que transforma parcialmente los datos recibidos para que sean compatibles con los diferentes módulos que se le puedan acoplar. A parte, facilita el enrutamiento de los datos hacia los diferentes módulos que se le quieran acoplar. 
 
 %% porque añadir un módulo de ingesta facilita el añadir nuevos módulos al sistema

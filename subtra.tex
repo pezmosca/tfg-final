@@ -2,12 +2,30 @@
 
 \section{Arquitectura del subsistema}
 
-El subsistema de recepción e ingesta está formado por dos módulos, los cuales actúan fuera del dispositivo ubicuo. Esta es una división a nivel lógico y existe para reducir a problemas más simples el problema general, aunque nada impide que una herramienta implemente dos módulos.
+El subsistema de transformación está formado por dos módulos, los cuales actúan fuera del dispositivo ubicuo. Esta es una división a nivel lógico y existe para reducir a problemas más simples el problema general, aunque nada impide que una herramienta implemente dos módulos.
 
 \subsection{Módulo de transformación}
+
+El módulo de transformación es el encargado de consumir los datos del módulo de ingesta, hacer las transformaciones deseadas a los datos y publicarlas en el módulo de almacenamiento. Este módulo no almacena de forma persistente los datos.
+
+Este módulo es necesario ya que nos ayuda a crear información de valor con los eventos extraídos, a parte de generar la información en un formato que el módulo de almacenamiento acepte.
+
 \subsection{Módulo de almacenamiento}
 
+El módulo de almacenamiento es el encargado de recibir los datos transformados del módulo de transformación y almacenarlos para que puedan ser consumidos por otros sistemas o aplicaciones.
+
+
+
 \section{Estructura del subsistema}
+
+La estructura de este subsistema puede variar mucho dependiendo de los datos que se quieran procesar, en nuestro casos son logs y crashlogs, por lo que la estructura utilizada ha de ser capaz de transformar de forma eficaz logs y crashlogs, pero la elección de la estructura no ha de condicionar el propósito del sistema, es decir, aunque el sistema del proyecto ha de trabajar con eventos, se ha buscado la solución más general para tener lo más cercano a un sistema de propósito general para poder procesar otro tipo de eventos cuando sea necesario. Se ha de tener en cuenta que la elección del módulo de almacenamiento no se ha tomado en este proyecto, sino que este sistema se ha tenido que acoplar con un módulo de almacenamiento existente en la empresa, por lo que la elección estructural del módulo de transformación se ha visto condicionada por el módulo de almacenamiento existente.
+
+
+
+\subsection{Módulo de transformación}
+%%ser rápido levantandolo, ser diferente a la competencia
+
+\subsection{Módulo de almacenamiento}
 
 \section{Herramientas utilizadas}
 
