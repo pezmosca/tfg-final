@@ -46,11 +46,10 @@ El módulo de almacenamiento nos venía dado por la empresa. La empresa ya utili
 \subsection{Módulo de transformación}
 \subsubsection{Submódulo de propósito general}
 Para el submódulo de propósito general se ha decidido utilizar Kafka Streams\cite{Tfg:kafkastreams}
-%%Kafka streams
 \subsubsection{Submódulo de propósito específico}
-%%Logstash
+Para el submódulo de propósito general se ha decidido utilizar Logstash puesto que se integra perfectamente con Elastic Search y hace una transformación específica para eventos, ofreciendo transformaciones bastante útiles para poder hacer a posteriormente transformaciones más complejas.
 \subsection{Módulo de almacenamiento}
-%%Elastic Search, JIRA
+Las herramientas que componen el módulo de almacenamiento son Elastic Search, en el cual se almacenan logs y crashlogs, y JIRA, en el cual se alamacenan tan solo crashlogs. Estas herramientas ya estaban presentes en la empresa.
 
 \section{Configuración del subsistema}
 
