@@ -8,7 +8,7 @@ El subsistema de recolección y envío está formado por dos módulos, los cuale
 \subsection{Módulo de recolección}
 El módulo de recolección es el encargado de recoger los eventos en el dispositivo ubicuo, para que luego el módulo de envío pueda consumirlos. 
 \\\\
-En concreto para este proyecto los eventos que se recogerán serán logs y crashlogs. Los logs servirán para llevar a cabo la monitorización y los crashlogs el seguimiento de errores.
+En concreto para este proyecto los eventos que se recogen son logs y crashlogs. Los logs servirán para llevar a cabo la monitorización y los crashlogs el seguimiento de errores.
 \\\\
 Para generar logs se han de explicitar en el código ahí donde el programador considere adecuado, los crashlogs se generan automáticamente cuando la aplicación termina inesperadamente.
 \\\\
@@ -45,7 +45,7 @@ Para llevar a cabo la recolección de logs se ha utilizado la librería Logback\
 Para llevar a cabo la recolección de crashlogs se ha utilizado la librería ACRA\cite{Tfg:acra}. Esta librería detecta cuando una aplicación ha acabado inesperadamente y genera un crashlog con información de valor para reconocer que puede haber pasado. Esta librería también permite redirigir la salida del crashlog a diferentes destinos, editar el formato de salida del crashlog y la metainformación que se añade al crashlog.
 
 \subsection{Módulo de envío}
-Para llevar a cabo el envío de logs y crashlogs se ha utilizado la librería OkHttp\cite{Tfg:okhttp} que permite hacer peticiones HTTP. %%WHY
+Para llevar a cabo el envío de logs y crashlogs se ha utilizado la librería OkHttp\cite{Tfg:okhttp} que permite hacer peticiones HTTP. Se ha escogido esta librería por la rapidez con la que se puede programar lo que se desea para este proyecto, a parte del uso eficiente que hace de los recursos del sistema.
 
 \section{Configuración del subsistema}
 

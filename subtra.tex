@@ -19,33 +19,33 @@ Este módulo es necesario ya que es el encargado de almacenar de forma persisten
 
 \section{Estructura del subsistema}
 
-La estructura de este subsistema puede variar mucho dependiendo de los datos que se quieran procesar, en nuestro casos son logs y crashlogs, por lo que la estructura utilizada ha de ser capaz de transformar de forma eficaz logs y crashlogs, pero la elección de la estructura no ha de condicionar el propósito del sistema, es decir, aunque el sistema del proyecto ha de trabajar con eventos, se ha buscado la solución más general para tener lo más cercano a un sistema de propósito general, de esta manera se podrán procesar otro tipo de datos cuando sea necesario. Se ha de tener en cuenta que la elección del módulo de almacenamiento no se ha tomado en este proyecto, sino que este sistema se ha tenido que acoplar con un módulo de almacenamiento existente en la empresa, por lo que la elección estructural del módulo de transformación se ha visto condicionada por el módulo de almacenamiento existente.
+La estructura de este subsistema puede variar mucho dependiendo de los datos que se quieran procesar, en nuestro casos son logs y crashlogs, por lo que la estructura utilizada ha de ser capaz de transformar de forma eficaz logs y crashlogs, pero la elección de la estructura no ha de condicionar el propósito del sistema. Aunque el sistema del proyecto ha de trabajar con eventos, se ha buscado la solución más general para tener lo más cercano a un sistema de propósito general, de esta manera se podrán procesar otro tipo de datos cuando sea necesario. Se ha de tener en cuenta que la elección del módulo de almacenamiento no se ha tomado en este proyecto, sino que este sistema se ha tenido que acoplar con un módulo de almacenamiento existente en la empresa, por lo que la elección estructural del módulo de transformación se ha visto en parte condicionada por el módulo de almacenamiento existente.
 
 
 \subsection{Módulo de transformación}
 
-Para el módulo de transformación se ha buscado por un lado, que sea eficaz transformando logs y crashlogs y por otro que sea lo más general posible para soportar en el futuro la transformación de otro tipo de datos, por lo que la solución encontrada pasa por aprovechar la existencia de un módulo de ingesta extremadamente versátil y dividir en submódulos el módulo de transformación. Así pues, los elementos a nivel estructural han de encajar en esta división.
+Para el módulo de transformación se ha buscado por un lado, que sea eficaz transformando logs y crashlogs y por otro que sea lo más general posible para soportar en el futuro la transformación de otro tipo de datos, por lo que la solución encontrada pasa por aprovechar la existencia de un módulo de ingesta extremadamente versátil y dividir en submódulos, que pueden colaborar entre ellos, el módulo de transformación. Así pues, los elementos a nivel estructural han de encajar en esta división.
 \\\\
 El módulo de transformación se divide en dos submódulos:
 
 \subsubsection{Submódulo de propósito general}
 
-El submódulo de propósito general es capaz de transformar todo tipo de datos, ya sean eventos u otra cosa. Se ha añadido para dotar al sistema de generalidad transformando datos. Este submódulo es capaz de hacer agregaciones, joins y windowing en tiempo real. A parte, este submódulo es fácilmente escalable, desplegable e integrable con el submódulo de ingesta. La solución escogida ha sido, en vez de una infraestructura pasiva en la que se le envían lotes de trabajo para que los procese, un solución activa en la que una aplicación con el uso de alguna librería sea capaz de consumir los datos del módulo de ingesta y publicarlos en el módulo de almacenamiento. Por lo que a nivel estructural este módulo es una aplicación que utiliza una librería de stream processing.
+El submódulo de propósito general es capaz de transformar todo tipo de datos, ya sean eventos u otra cosa. Este submódulo se ha añadido para dotar al sistema de generalidad transformando datos. Este submódulo es capaz de hacer agregaciones, joins y windowing en tiempo real. A parte, este submódulo es fácilmente escalable, desplegable e integrable con el submódulo de ingesta. La solución escogida ha sido, en vez de una estructura pasiva a la que se le envían lotes de trabajo para que los procese, un solución activa en la que una aplicación con el uso de alguna librería sea capaz de consumir los datos del módulo de ingesta, transformarlo, y publicarlos en el módulo de almacenamiento. Por lo que a nivel estructural este submódulo es una aplicación que utiliza una librería de stream processing.
 
 \subsubsection{Submódulo de propósito específico}
-El submódulo de propósito específico es capaz de transformar un tipo de datos en concreto, en el caso de este proyecto eventos. Este módulo hace transformaciones que requieren una potencia de cálculo menor que las transformaciones que puede hacer el submódulo de propósito general. Las transformaciones que efectúa es un parseo de los eventos para que se puedan integrar correctamente con el entorno de la empresa o para que el submódulo de propósito general haga transformaciones más potentes con los datos. 
+El submódulo de propósito específico es capaz de transformar un tipo de datos en concreto, en el caso de este proyecto eventos. Este módulo hace transformaciones que requieren una potencia de cálculo menor que las transformaciones que puede hacer el submódulo de propósito general. Las transformación que principalmente efectúa es un enriquecimiento para que los datos sean aceptados en el módulo de destino o para que el submódulo de propósito general haga transformaciones más potentes con los datos ya enriquecidos. \\\\
 
-
-%% !!!si tienes uno de caracter especifico pasivo uno de caracter general activo, el de caracter general es escalable y adaptable 
+%% !!!si tienes uno de caracter especifico pasivo uno de caracter general activo, el de caracter general es escalable y adaptable. Tienes un módulo específico potente y uno general ligeramente menos potente que la media pero mucho más barato, por lo que los dos submódulos se complementan para dar un sistema escalable y versatil.
 
 Es decir, este módulo delega en el submódulo de transformación de propósito general cuando ha de hacer transformaciones potentes.
 
 \subsection{Módulo de almacenamiento}
-El módulo de almacenamiento nos venía dado por la empresa. La empresa ya utilizaba un módulo de almacenamiento en concreto y el sistema se ha de integrar con él. El módulo de almacenamiento lo integra una aplicación de seguimiento de errores y un servidor de búsqueda. Los dos elementos tienen bases de datos, pero para acceder a ellas se ha de hacer a través de los puntos de entrada que disponen, API REST por ejemplo.
+El módulo de almacenamiento nos venía dado por la empresa. La empresa ya utilizaba un módulo de almacenamiento en concreto y el sistema se ha de integrar con él. El módulo de almacenamiento lo integra una aplicación de seguimiento de errores y un servidor de búsqueda. Los dos elementos tienen bases de datos, pero para acceder a ellas se ha de hacer a través de los puntos de entrada que disponen, API REST por ejemplo. El sistema se ha de integrar con este módulo.
 \section{Herramientas utilizadas}
 
 \subsection{Módulo de transformación}
 \subsubsection{Submódulo de propósito general}
+Para el submódulo de propósito general se ha decidido utilizar Kafka Streams\cite{Tfg:kafkastreams}
 %%Kafka streams
 \subsubsection{Submódulo de propósito específico}
 %%Logstash

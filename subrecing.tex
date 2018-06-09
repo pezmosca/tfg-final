@@ -6,13 +6,13 @@ El subsistema de recepción e ingesta está formado por dos módulos, los cuales
 
 \subsection{Módulo de recepción}
 
-El módulo de recepción en el encargado de recibir los eventos que le envía el módulo de envío y de enviárselos al módulo de ingesta. Por lo que este módulo no almacena de forma persistente los eventos recibidos.
+El módulo de recepción en el encargado de recibir los eventos que le envía el módulo de envío y de enviárselos al módulo de ingesta. Este módulo no almacena de forma persistente los eventos recibidos.
 \\\\
-Se ha añadido este módulo para centralizar a un único punto de entrada y tener una metodología de envío universal a todos los dispositivos ubicuos de la empresa. De esta manera, también se facilita el que nuevos dispositivos ubicuos, diferentes a los que la empresa utiliza, puedan integrarse con el sistema.
+Se ha añadido este módulo para centralizar a un único punto de entrada y tener una metodología de envío universal para todos los dispositivos ubicuos de la empresa. De esta manera, también se facilita el que nuevos dispositivos ubicuos, diferentes a los que la empresa utiliza, puedan integrarse con el sistema.
 
 \subsection{Módulo de ingesta} 
 
-El módulo de ingesta es el encargado de recibir los eventos del módulo de recepción y dejar a disposición los datos al módulo de transformación. Este módulo almacena de forma persistente y volátil los eventos recibidos.
+El módulo de ingesta es el encargado de recibir los eventos del módulo de recepción y dejar a disposición los datos al módulo de transformación. Este módulo almacena tanto de forma persistente como volátil los eventos recibidos.
 \\\\
 Se ha añadido un módulo entre el módulo de recepción y el módulo de transformación por cuatro razones:
 
@@ -23,14 +23,11 @@ Se ha añadido un módulo entre el módulo de recepción y el módulo de transfo
 	\item Facilitar la integración de nuevos módulos.
 \end{enumerate}
 
-%%REPROCESSING!!!!!!
+Al añadir un módulo que almacene los datos sin procesar antes del módulo de transformación, se permite que el módulo de transformación pueda volver a consumir datos que ya había procesado antes. Tal módulo querría reprocesar los datos por algún error humano en el programa que se encarga de transformarlos. Estos datos sin procesar no se almacenarán por siempre en el módulo de ingesta, sino que se irán eliminado del módulo siguiendo una política de limpieza establecida por el administrador del sistema.
 
-Puesto que el módulo de ingesta sirve los datos para que sean consumidos, el módulo de transformación los consume cuando puede, de esta manera si estaba caído, y puesto que módulo de ingesta almacena los datos de forma persistente, los consumirá cuando vuelva a estar arriba.
+Puesto que el módulo de ingesta sirve los datos para que sean consumidos, el módulo de transformación los consume cuando puede, de esta manera si estaba caído o estaba saturado, y puesto que módulo de ingesta almacena los datos de forma persistente, los consumirá cuando vuelva a estar arriba o pueda consumirlos.
 \\\\
-Añadir este módulo de ingesta facilita la integración de nuevos módulos ya que transforma parcialmente los datos recibidos para que sean compatibles con los diferentes módulos que se le puedan acoplar. A parte, facilita el enrutamiento de los datos hacia los diferentes módulos que se le quieran acoplar. 
-
-%% porque añadir un módulo de ingesta facilita el añadir nuevos módulos al sistema
-
+Añadir este módulo de ingesta facilita la integración de nuevos módulos ya que transforma parcialmente los datos recibidos para que sean compatibles con los diferentes módulos que se le puedan acoplar. A parte, facilita el enrutamiento de los datos hacia los diferentes módulos que se le quieran acoplar.
 
 \section{Estructura del subsistema}
 
@@ -45,8 +42,7 @@ El módulo de ingesta lo integra una streaming platform, una especie de buffer q
 
 %%TODO: Preguntar a Xavi como poner la fuente
 \subsection{Módulo de ingesta}
-%% Hablar del what is?
-Para el módulo de ingesta se ha escogido utilizar Apache Kafka\cite{Tfg:kafka} por las siguientes razones:
+Para el módulo de ingesta se ha escogido utilizar Apache Kafka\cite{Tfg:kafka}, a parte de porque posee las funcionalidades requeridas, por las siguientes razones:
 
 \begin{itemize}
 	\item Compatibilidad: Ofrece una gran compatibilidad con las posibles herramientas a utilizar en el módulo de transformación, aparte de con otras herramientas de otros posibles módulos que se quieran acoplar.
@@ -63,7 +59,7 @@ Para el módulo de ingesta se ha escogido utilizar Apache Kafka\cite{Tfg:kafka} 
 \end{itemize}
 
 \subsection{Módulo de recepción}
-Kafka Rest Proxy\cite{Tfg:kafkarestproxy}
+Para el módulo de ingesta se ha escogido utilizar Kafka Rest Proxy\cite{Tfg:kafkarestproxy}, a parte de porque posee las funcionalidades requeridas, la elección de esta herramienta ha dependido de la elección de la herramienta del módulo de ingesta, ya que se ha tenido que buscar una herramienta que sea integrable con Apache Kafka. La herramienta escogida ha sido creada por los mismos creadores que Apache Kafka y la integración está completamente asegurada. A parte de la integración, esta herramienta nos aporta ciertos beneficios de confiabilidad y escalabilidad que serán más evidentes en su despliegue.
 
 \section{Configuración del subsistema}
 
