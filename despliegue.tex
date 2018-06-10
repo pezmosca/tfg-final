@@ -1,0 +1,20 @@
+\chapter{Despliegue}
+\section{Entorno}
+El entorno que se ha escogido para desplegar las partes del sistema que no residen en el dispositivo ubicuo ha sido Amazon Web Services (AWS). La razón es porque la empresa actualmente trabaja con este servicio y es más fácil integrarse con los módulos con lo que se ha de integrar el sistema. AWS nos ofrece una serie de servicios que encajan con lo que se pretende desplegar.
+
+El entorno que se ha escogido para desplegar las partes del sistema que residen en el dispositivo ubicuo ha sido Android. La razón es porque la empresa trabaja actualmente con dispositivos Android y tenía la necesidad de recolectar eventos en estos dispositivos.
+
+\section{Máquinas}
+El servicio que se ha escogido para desplegar las máquinas ha sido EC2\cite{Tfg:ec2}, ya que ofrece diferentes máquinas virtuales con diferentes características a nivel de hardware que pueden adaptarse notablemente a las necesidades de las diferentes partes del sistema.
+
+\subsection{Subsistema de recolección y envío}
+Para desplegar este subsistema tan solo se necesita un dispositivo Android. La versión mínima de Android ha de ser la 4.0 para que las librerías funcionen correctamente. El dispositivo ha de tener acceso a Internet para que pueda comunicarse con el subsistema de recepción e ingesta.
+
+\subsection{Subsistema de recepción e ingesta}
+\subsubsection{Módulo de recepción}
+Este módulo hace un uso intensivo de CPU y de red. Cuando a Kafka Rest Proxy se le hacen peticiones de POST, es decir, el módulo de envío no consume datos, hace mucho uso del paralelismo en la CPU, a más cores, más peticiones podrá atender a la vez. El uso de RAM que hace este módulo es modesto y con que pueda soportar 1GB de heap es suficiente. El uso de red es elevado, puesto que ha de ser capaz de soportar diversas conexiones a la vez en las cuales se pueden transmitir gran cantidad de datos. El uso de disco es mínimo, ya que no almacena ninguna información en ellos.
+\\\\
+
+La máquina escogida para desplegar este módulo ha sido la c5.2xlarge
+
+Para asegurar la confiabilidad del módulo y de paso aumentar el número de cores del s
