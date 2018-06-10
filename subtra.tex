@@ -29,15 +29,20 @@ Para el módulo de transformación se ha buscado por un lado, que sea eficaz tra
 El módulo de transformación se divide en dos submódulos:
 
 \subsubsection{Submódulo de propósito general}
-
-El submódulo de propósito general es capaz de transformar todo tipo de datos, ya sean eventos u otra cosa. Este submódulo se ha añadido para dotar al sistema de generalidad transformando datos. Este submódulo es capaz de hacer agregaciones, joins y windowing en tiempo real. A parte, este submódulo es fácilmente escalable, desplegable e integrable con el submódulo de ingesta. La solución escogida ha sido, en vez de una estructura pasiva a la que se le envían lotes de trabajo para que los procese, un solución activa en la que una aplicación con el uso de alguna librería sea capaz de consumir los datos del módulo de ingesta, transformarlo, y publicarlos en el módulo de almacenamiento. Por lo que a nivel estructural este submódulo es una aplicación que utiliza una librería de stream processing.
+El submódulo de propósito general es capaz de transformar todo tipo de datos, ya sean eventos u otra cosa. Este submódulo se ha añadido para dotar al sistema de generalidad transformando datos. Este submódulo es capaz de hacer transformaciones stateful como agregaciones, joins y windowing, o transformaciones stateless como filtering y mapping, todas ellas en tiempo real. A parte, este submódulo es fácilmente escalable, desplegable e integrable con el submódulo de ingesta. La solución escogida ha sido, en vez de una estructura pasiva a la que se le envían lotes de trabajo para que los procese, un solución activa en la que una aplicación con el uso de alguna librería sea capaz de consumir los datos del módulo de ingesta, transformarlos, y publicarlos en el módulo de almacenamiento. Por lo que a nivel estructural este submódulo es una aplicación que utiliza una librería de stream processing.
 
 \subsubsection{Submódulo de propósito específico}
 El submódulo de propósito específico es capaz de transformar un tipo de datos en concreto, en el caso de este proyecto eventos. Este módulo hace transformaciones que requieren una potencia de cálculo menor que las transformaciones que puede hacer el submódulo de propósito general. Las transformación que principalmente efectúa es un enriquecimiento para que los datos sean aceptados en el módulo de destino o para que el submódulo de propósito general haga transformaciones más potentes con los datos ya enriquecidos. \\\\
 
+
+Estos dos submódulos pueden cooperar entre ellos. Por ejemplo, los datos podrían pasar primero por el submódulo de propósito general aplicarles la transformación pertinente y luego pasarlos al submódulo de propósito específico enriquecerlos y pasarlos al módulo de almacenamiento.
+\\
+Esta división en submódulos hace que la aplicación sea viable para todos los casos de uso, ya sea un caso de uso que requiera poca potencia de procesado o mucha potencia de procesado. Con esta división se ajustan bastante los costes a la complejidad del procesado, si el procesado es simple, el precio será bajo, si el procesado es complejo el precio será alto, por lo que no existe un umbral a partir del cual salga a cuenta hacer el procesado de los datos. Es más, no es necesario utilizar los dos submódulos, quizás con las transformaciones que ofrece uno de los dos módulos es suficiente. 
+\\
+Para que la división en submódulos sea tan versátil es importante que el submódulo de propósito general se pueda adaptar a la complejidad del problema, es decir, que para problemas simples no utilice una cantidad elevada de recursos que hagan que ese procesado no salga a cuenta. No se habla del submódulo de propósito específico ya que este submódulo depende en gran medida del módulo de almacenamiento, por lo que habrán situaciones en las que este submódulo tenga que estar sobredimensionado por culpa del módulo de almacenamiento, pero se pueden compensar los costes gracias al submódulo de propósito general.
+
 %% !!!si tienes uno de caracter especifico pasivo uno de caracter general activo, el de caracter general es escalable y adaptable. Tienes un módulo específico potente y uno general ligeramente menos potente que la media pero mucho más barato, por lo que los dos submódulos se complementan para dar un sistema escalable y versatil.
 
-Es decir, este módulo delega en el submódulo de transformación de propósito general cuando ha de hacer transformaciones potentes.
 
 \subsection{Módulo de almacenamiento}
 El módulo de almacenamiento nos venía dado por la empresa. La empresa ya utilizaba un módulo de almacenamiento en concreto y el sistema se ha de integrar con él. El módulo de almacenamiento lo integra una aplicación de seguimiento de errores y un servidor de búsqueda. Los dos elementos tienen bases de datos, pero para acceder a ellas se ha de hacer a través de los puntos de entrada que disponen, API REST por ejemplo. El sistema se ha de integrar con este módulo.
@@ -45,9 +50,23 @@ El módulo de almacenamiento nos venía dado por la empresa. La empresa ya utili
 
 \subsection{Módulo de transformación}
 \subsubsection{Submódulo de propósito general}
-Para el submódulo de propósito general se ha decidido utilizar Kafka Streams\cite{Tfg:kafkastreams}
+Para el submódulo de propósito general se ha decidido utilizar Kafka Streams\cite{Tfg:kafkastreams} ya que a parte de cumplir las necesidades estructurales, por las siguientes razones:
+
+\begin{itemize}
+	\item \textbf{Proporciona una abstracción de alto nivel para hacer las transformaciones}. Repercute en el tiempo necesario para programar la solución deseada.
+	
+	\item \textbf{Hace un Stream Processing real, no hace micro-batching}. Por lo que las latencias de procesado pueden ser muy bajas.
+	
+	\item \textbf{Se integra sin problemas con Kafka}. No se produce un cuello de botella entre las dos herramientas.
+	
+	\item \textbf{Es una librería de Java}. Una aplicación en Java que utiliza Kafka Streams es la que hace la transformación de los datos, por lo que la aplicación se podrá desplegar en máquinas que soporten Java, y no es necesario desplegar un cluster para realizar las transformaciones. Es altamente escalable puesto que si se necesita más potencia de cálculo tan solo se ha de desplegar otra instancia de la aplicación.
+\end{itemize}
+
+
+
 \subsubsection{Submódulo de propósito específico}
-Para el submódulo de propósito general se ha decidido utilizar Logstash puesto que se integra perfectamente con Elastic Search y hace una transformación específica para eventos, ofreciendo transformaciones bastante útiles para poder hacer a posteriormente transformaciones más complejas.
+Para el submódulo de propósito general se ha decidido utilizar Logstash puesto que se integra perfectamente con Kafka y Elastic Search, y hace una transformación específica para eventos, ofreciendo transformaciones bastante útiles para el caso de los eventos.
+
 \subsection{Módulo de almacenamiento}
 Las herramientas que componen el módulo de almacenamiento son Elastic Search, en el cual se almacenan logs y crashlogs, y JIRA, en el cual se alamacenan tan solo crashlogs. Estas herramientas ya estaban presentes en la empresa.
 
