@@ -72,4 +72,17 @@ Las herramientas que componen el módulo de almacenamiento son Elastic Search, e
 
 \section{Configuración del subsistema}
 
+\subsection{Módulo de transformación}
+La configuración de este módulo depende de la transformación que se quiera hacer a los datos. Para comprobar el funcionamiento del módulo y simplificar el problema, se harán transformaciones simples que puedan ser demostrables el día de la demostración.
+\\\\
+Para los logs, lo que se pretende es que se enriquezcan. En concreto, los logs entran como un objeto JSON, y las claves de este objeto son tan solo una letra, lo que se quiere es reemplazar las claves por una palabra que identifique mejor que es cada parte del objeto JSON y luego publicarlo en Elastic Search. Para este caso haciendo uso del submódulo de propósito específico nos basta, y se ha configurado Logstash para que sea capaz de consumir los datos del topic \textit{logs} de Kafka, transformarlos y publicarlos en Elastic Search. 
+\\\\
+Para los crashlogs, lo que se pretende es que cuando se produzca el mismo crashlog X veces durante un periodo de tiempo de Y segundos, se genere un ticket en JIRA que contenga los datos más relevantes de este crashlog. A parte, también se quiere que todos los crashlogs que se produzcan se publiquen en Elastic Search. Para este caso se hace uso de los dos submódulos. El submódulo de propósito general se encarga de controlar si se produce el mismo crashlog X veces durante un periodo de tiempo de Y segundos y de generar el ticket en JIRA. El submódulo de propósito específico se encarga de publicar todos los crashlogs en Elastic Search.
+
+\subsection{Módulo de almacenamiento}
+Este módulo ya está configurado por la empresa, por lo que la configuración que se va a hacer es una que permita ver que el sistema funciona como se espera el día de la presentación.
+\\\\
+En JIRA se ha creado un proyecto, en el cual se publican los tickets con la información sobre los crashlogs.
+En Elastic Search se ha creado dos índices, uno para los logs y otro para los crashlogs.
+
 

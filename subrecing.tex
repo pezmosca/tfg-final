@@ -64,6 +64,21 @@ Para el módulo de ingesta se ha escogido utilizar Kafka Rest Proxy\cite{Tfg:kaf
 \section{Configuración del subsistema}
 
 \subsection{Módulo de recepción}
+
+En el capítulo \ref{cap:despligue} se hablará con más detalle de que este módulo a parte de máquinas tiene un balanceador de carga que distribuye el trabajo entre las máquinas. Configurar ese balanceador de carga también forma parte de la configuración de este módulo. A ese balanceador se le ha tenido que decir que las peticiones REST que vengan por un puerto en concreto las redirija a las máquinas que forman el módulo de recepción.
+\\\\
+A las máquinas que forman el módulo de recepción se le ha tenido que configurar el destino de los mensajes recibidos, es decir, que envíen los mensajes que reciben del módulo de envío al módulo de ingesta. También se le ha tenido que dotar de una id única para que el módulo de ingesta reconozca las máquinas.
+
 \subsection{Módulo de ingesta}
-%% replication factor, topics, partitions, clean policy
+
+El módulo de ingesta tiene una forma particular de almacenar los datos. Almacena los datos en \textit{topics}, los \textit{topics} son similares a las tablas en SQL. Se han creado dos \textit{topics}, el \textit{topic} logs, donde se almacenarán los logs, y el \textit{topic} crashlogs donde se almacenarán los crashlogs. Los \textit{topics} se dividen en particiones para explotar al máximo el paralelismo y permitir que diversas máquinas consuman diferentes particiones del mismo \textit{topic}. Estas particiones se pueden replicar entre las máquinas con el fin de aumentar la durabilidad y la confiabilidad del sistema. Por lo que en resumen la configuración escogida de los \textit{topics} es la siguiente:
+
+\begin{itemize}
+	\item Topic \textit{logs}, 3 particiones, 3 replicas de cada partición. De esta manera 3 máquinas pueden consumir los datos a la vez y pueden fallar 2 máquinas del cluster que aún los datos serán accesibles.
+	\item Topic \textit{crashlogs}, 3 particiones, 3 replicas de cada partición. De esta manera 3 máquinas pueden consumir los datos a la vez y pueden fallar 2 máquinas del cluster que aún los datos serán accesibles.
+\end{itemize}
+
+A parte, el sistema nos permite definir una política de limpieza para los datos almacenados. Se ha establecido que los datos permanezcan almacenados en el sistema de forma persistente una semana. Es un tiempo más que suficiente para detectar un mal procesado y tener que volver a reprocesar los datos.
+
+Como en Kafka se puede forman un cluster de máquinas, a cada máquina se le ha tenido que configurar a qué cluster pertenece.
 

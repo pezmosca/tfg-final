@@ -55,17 +55,48 @@ Para llevar a cabo el envío de logs y crashlogs se ha utilizado la librería Ok
 Del módulo de recolección se han configurado los siguientes factores:
 
 \subsubsection{Metadatos}
-Metadatos hace referencia a toda la información que se recolecta a parte de la información.
+Metadatos hace referencia a toda la información que se recolecta a parte de la información de valor del evento. La información de valor n el caso de los logs es el mensaje de define el programador, en el caso de los crashlogs es el mensaje de error del crash.
 
+De los los logs se recogen metadatos porque se consideran útiles para entender el contexto del log, los metadatos que se recogen son:
 
-\begin{itemize}
-	\item Metadatos
-	\item Sintaxis (Estructura) %% De los logs 
-	\item Formato %%JSON
-	\item Destino %% Archivo en el el path de la app, cuando se cierra se borra
+\begin{itemize}	
+	\item \textbf{Hora del evento}: Hora en la que se produce el evento
+	\item \textbf{Tiempo que transcurre desde que se inició la aplicación}: Una resta entre la hora que se produce el evento y la hora que se inició la aplicación.
+	\item \textbf{Nivel}: Los logs pueden tener varios niveles, nivel informativo, de debug, de error, y más niveles que se pueden definir.
+	\item \textbf{Nombre del thread}: Nombre del thread que lanza el log para que sea recolectado.
 \end{itemize}
 
-%%EL LOG Y EL CRASH COMO ENTE
+De los los crashlogs se recogen metadatos porque se consideran útiles para entender el contexto del crashlog y poder solucionar el error cuanto antes, los metadatos que se recogen son:
+
+\begin{itemize}
+	\item Versión de la aplicación
+	\item Modelo del dispositivo
+	\item RAM total del dispositivo
+	\item RAM disponible en el momento del crash
+	\item Versión de Android
+	\item Tipo de CPU
+	\item Tipos de CPU soportadas por el dispositivo
+\end{itemize}
+
+\subsubsection{Formato}
+El formato escogido para representar tanto logs, como crashlogs ha sido un objeto JSON puesto que nos aporta el poder tratar el evento de manera fácil y para cumplir con los requisitos de formato que exige el módulo de recepción. Cada dato que se quiere incluir en el evento es un par clave-valor, donde la clave es fija y el valor depende del estado del dispositivo. Las claves de los crahslogs no se han podido definir, sino que ACRA define las que han de ser. En el caso de los logs sí que se han podido definir, para reducir el uso de red y de almacenamiento estas claves son tan solo un carácter, el módulo de transformación se configurará para que sea capaz de enriquecer los logs y de reconocer que significa cada carácter. 
+
+\subsubsection{Destino}
+Destino hace referencia a donde se envían los eventos una vez se han recolectado. 
+Los logs no pasan directamente al módulo de envío, sino que se almacenan en un archivo de texto en el dispositivo ubicuo para que cuando la aplicación se cierre, el módulo de envío los consuma de ese archivo.
+Los crashlogs pasan directamente a disposición del módulo de envío una vez se recolectan. No se almacenan en persistencia. 
+
+\subsection{Módulo de envío}
+
+Del módulo de envío se han configurado los siguiente factores:
+
+\begin{itemize}
+	\item \textbf{Cuándo se hace el envío}: En el caso de los logs, el envío se hace una vez la aplicación se ha cerrado, se hace así para no interferir en el uso de red mientras la aplicación está corriendo. En Android es posible detectar cuando se va a cerrar una aplicación y ejecutar código. \\ En el caso de los crashlogs el envío se hace justo cuando el crash sucede, se hace así ya que nada asegura que la aplicación pueda volverse a abrir después de que un crash haya sucedido. La librería ACRA nos permite llevar a cabo este comportamiento con los crashlogs.
+	
+	\item \textbf{Destino}: El destino tanto de los logs como de los crashlogs es el módulo de recepción, por lo que se ha configurado para que sean enviados ahí. Dentro del módulo de ingesta, logs y crashlogs van a destinos lógicos diferentes, por lo que también se ha configurado su destino dentro del módulo de ingesta.
+	
+	\item \textbf{Cómo se hace el envío}: En el caso de crashlogs no hay más opción a que cada petición POST hacía el módulo de recepción contenga tan solo un crashlog. En el caso de los logs se puede enviar una petición POST por cada log o envíar una petición POST con todos los logs recolectados durante la sesión. Se ha escogido enviar una sola petición POST con todos los logs recolectados para no saturar al módulo de recepción atendiendo peticiones.
+\end{itemize}
 
 
 

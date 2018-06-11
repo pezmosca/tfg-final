@@ -1,4 +1,4 @@
-\chapter{Despliegue}
+\chapter{Despliegue} \label{cap:despligue}
 \section{Entorno}
 El entorno que se ha escogido para desplegar las partes del sistema que no residen en el dispositivo ubicuo ha sido Amazon Web Services (AWS). La razón es porque la empresa actualmente trabaja con este servicio y es más fácil integrarse con los módulos con los que se ha de integrar el sistema. AWS nos ofrece una serie de servicios que encajan con lo que se pretende desplegar.
 
@@ -36,7 +36,7 @@ La máquina escogida para desplegar este módulo ha sido la c5.2xlarge, en la ta
 
 Para asegurar la confiabilidad del módulo y de paso aumentar el número de cores del sistema, se ha decidido desplegar 3 máquinas c5.2xlarge y un balanceador de carga que distribuya las conexiones entre las máquinas. Para desplegar el balanceador de carga se ha escogido utilizar el servicio que presta AWS de Aplication Load Balancer\cite{Tfg:apploadbalancer}.
 \\
-Con tal despliegue se puede soportar que caigan dos máquinas y aún el módulo podrá continuar haciendo su trabajo. Si ninguna máquina está caída se tendrán 24 cores que podrán soportar conexiones de hasta 30 Gbps de tráfico agregado.
+Con tal despliegue se puede soportar que caigan dos máquinas y aún el módulo podrá continuar haciendo su trabajo. Si ninguna máquina está caída se tendrán 24 cores y se podrán soportar conexiones de hasta 30 Gbps de tráfico agregado.
 
 %%Foto
 
@@ -86,7 +86,7 @@ El despliegue del subsistema de transformación es particular puesto que un mód
 \subsubsection{Módulo de transformación}
 Al estar dividido el módulo de transformación en dos submódulos y encargarse de tareas diferentes, el uso de los recursos es diferente en los dos submódulos. 
 \\
-Para el submódulo de propósito específico se ha desplegar Logstash, en la documentación de la herramienta no se deja del todo claro los requerimientos hardware, pero por su naturaleza se ha supuesto que hace un uso intensivo de CPU, RAM y red, y un uso ligero de disco. De momento se ha desplegado en una r4.xlarge, en la tabla \ref{tabla:kafkazookeeper} se puede ver sus recursos hardware. Como trabajo futuro, se ha monitorear el rendimiento de este módulo para ver el uso de los recursos que hace, y cambiar si fuera necesario la máquina utilizada.
+Para el submódulo de propósito específico se ha desplegar Logstash, en la documentación de la herramienta no se deja del todo claro los requerimientos hardware, pero por su naturaleza se ha supuesto que hace un uso intensivo de CPU, RAM y red, y un uso ligero de disco. De momento se ha desplegado en una r4.xlarge, en la tabla \ref{tabla:kafkazookeeper} se puede ver sus recursos hardware. Como trabajo futuro, se ha monitorear el rendimiento de este submódulo para ver el uso de los recursos que hace, y cambiar si fuera necesario la máquina utilizada.
 \\
 Para el submódulo de propósito general se ha de desplegar la aplicación Java que utiliza Kafka Streams. El despliegue de máquinas para este submódulo depende mucho del volumen de datos que se hayan de procesar, para la demostración se va a suponer un volumen de datos pequeño, tan solo para verificar que la solución funciona. La máquina escogida es una t2.micro en la tabla \ref{tabla:t2.micro} se pueden ver sus recursos hardware.
 
@@ -109,11 +109,11 @@ Se van a desplegar 3 máquinas r4.xlarge para el submódulo de propósito espec�
 Se va a desplegar 1 máquina t2.micro para el submódulo de propósito general, con el objetivo de comprobar la solución propuesta.
 
 \subsection{Módulo de almacenamiento}
-Este módulo ya está desplegado en la empresa, por lo que el despliegue que se va a hacer es exclusivo para la demostración. Por un lado se ha desplegar un cluster de Elastic Search y una máquina con Kibana, y por otro una máquina con JIRA.
+Este módulo ya está desplegado en la empresa, por lo que el despliegue que se ha hecho es exclusivo para la demostración. Por un lado se ha desplegado un cluster de Elastic Search y una máquina con Kibana, y por otro una máquina con JIRA.
 
-Para el despliegue del cluster de Elastic Search se va a utilizar máquinas parecidas a las que utiliza la empresa. La máquina escogida es una r4.xlarge, en la tabla \ref{tabla:kafkazookeeper} se puede ver sus recursos hardware. Para el despligue de Kibana se va a utilizar una t2.micro ya que no consume grandes recursos, en la tabla \ref{tabla:t2.micro} se puede ver sus recursos hardware.
+Para el despliegue del cluster de Elastic Search se han utilizado máquinas parecidas a las que utiliza la empresa. La máquina escogida es una r4.xlarge, en la tabla \ref{tabla:kafkazookeeper} se puede ver sus recursos hardware. Para el despligue de Kibana se ha utilizado una t2.micro, ya que JIRA no consume grandes recursos, en la tabla \ref{tabla:t2.micro} se puede ver los recursos hardware de la máquina escogida.
 \\
-Para el despligue de JIRA se va a utilizar una t2.small ya que JIRA como mínimo requiere 2 GiB de RAM para funcionar fluido. En la tabla \ref{tabla:t2.small} se puede ver sus recursos hardware.
+Para el despligue de JIRA se va a utilizar una t2.small ya que JIRA como mínimo requiere 2 GiB de RAM para funcionar fluido. En la tabla \ref{tabla:t2.small} se puede ver los recursos hardware de la máquina escogida.
 
 \begin{table}[H]\label{tabla:t2.small}
 	\centering
@@ -126,9 +126,35 @@ Para el despligue de JIRA se va a utilizar una t2.small ya que JIRA como mínimo
 		\textbf{HDD tamaño}         & 30 GiB                 \\ \hline
 		\textbf{HDD IOPS}           & X                      \\ \hline
 	\end{tabular}
-	\caption{Recursos hardware de la máquina virtual t2.micro}
+	\caption{Recursos hardware de la máquina virtual t2.small}
 \end{table}
 
 Se van a desplegar 3 máquinas r4.xlarge para Elastic Search ya que se quiere comprobar el correcto funcionamiento del sistema cuando Elastic Search está distribuido en más de una máquina. Se va desplegar 1 máquina t2.micro para Kibana. Se va a desplegar una máquina t2.small para JIRA.
+
+\subsection{Resumen de servicios a desplegar}
+
+\begin{table}[H]\label{tabla:resumenservicios}
+	\centering
+	\resizebox{15cm}{!}{
+	\begin{tabular}{|l|l|l|l|l|}
+		\hline
+		\textbf{Módulo} & \textbf{Aplicación} & \textbf{Servicio}      & \textbf{Detalle}          & \textbf{Número} \\ \hline
+		Recepción       & Kafka Rest Proxy    & Amazon EC2             & c5.2xlarge                & 3               \\ \hline
+		Recepción       & Kafka Rest Proxy    & Elastic Load Balancing & Application Load Balancer & 1               \\ \hline
+		Ingesta         & Apache Kafka        & Amazon EC2             & r4.xlarge                 & 3               \\ \hline
+		Ingesta         & Apache Zookeeper    & Amazon EC2             & r4.large                  & 3               \\ \hline
+		Transformación  & Logstash            & Amazon EC2             & r4.xlarge                 & 3               \\ \hline
+		Transformación  & Kafka Streams       & Amazon EC2             & t2.micro                  & 1               \\ \hline
+		Almacenamiento  & Elastic Search      & Amazon EC2             & r4.xlarge                 & 3               \\ \hline
+		Almacenamiento  & Kibana              & Amazon EC2             & t2.micro                  & 1               \\ \hline
+		Almacenamiento  & JIRA                & Amazon EC2             & t2.small                  & 1               \\ \hline
+	\end{tabular}
+    }
+	\caption{Recursos de servicios a desplegar}
+\end{table}
+
+En la tabla \ref{tabla:resumenservicios} se pueden ver el resumen de los servicios a desplegar en AWS. La columna \textit{Módulo} nos dice el módulo del sistema que se despliega, la columna \textit{Aplicación} nos marca la aplicación que se va a desplegar, la columna \textit{Servicio} no dice el servicio de AWS que se va a utilizar, la columna \textit{Detalle} nos informa sobre que servicio en concreto se va a desplegar y la columna \textit{Número} no dice el número de instancias que se van a desplegar. Cada fila corresponde a los servicios a desplegar.
+
+\subsection{Networking}
 
 
