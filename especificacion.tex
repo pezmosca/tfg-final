@@ -11,9 +11,15 @@ La arquitectura del sistema se divide en tres partes o subsistemas, cada subsist
 	\item \textit{Subsistema de transformación}:  Está compuesto por dos módulos, el de transformación y el de almacenamiento. El módulo de transformación se encarga de transformar los eventos que consume del módulo de ingesta y de enviarlos al módulo de almacenamiento. El módulo de almacenamiento recibe los eventos transformados del módulo de transformación y los almacena.
 \end{itemize}
 
-%%Foto con los módulos y el flujo de datos.
+\subsection{Vista parcial de la arquitectura}
+En la figura \ref{fig:arqparcial} se puede ver como se relacionan los subsistemas y los módulos del sistema. Las flechas indican el sentido del flujo de datos.
+
+\begin{figure}[!htb]
+	
+	\includegraphics[width=\linewidth] {Moduloss-arquitecturaparcial.png}
+	\caption{Vista parcial de la arquitectura del sistema}
+	\label{fig:arqparcial}
+\end{figure}
 
 \section{Integración con el entorno}
 El sistema se ha de integrar con JIRA y con Elastic Search. De la integración con JIRA se espera que el sistema sea capaz de crear un ticket en JIRA con información obtenida de los eventos. De la integración con Elastic Search se espera que el sistema sea capaz de publicar información, obtenida de las alertas, en un índice de Elastic Search con el objetivo de que la información publicada sea visible en Kibana. Esta integración condiciona en cierto modo la estructura del sistema.
-
-\section{Conocimientos previos}

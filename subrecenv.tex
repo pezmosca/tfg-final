@@ -98,6 +98,16 @@ Del módulo de envío se han configurado los siguiente factores:
 	\item \textbf{Cómo se hace el envío}: En el caso de crashlogs no hay más opción a que cada petición POST hacía el módulo de recepción contenga tan solo un crashlog. En el caso de los logs se puede enviar una petición POST por cada log o envíar una petición POST con todos los logs recolectados durante la sesión. Se ha escogido enviar una sola petición POST con todos los logs recolectados para no saturar al módulo de recepción atendiendo peticiones.
 \end{itemize}
 
+\subsection{Vista general del subsistema}
+En la figura \ref{fig:subrecenv} se puede ver como se relacionan los módulos y las herramientas del subsistema. Las flechas indican el sentido del flujo de datos.
+
+\begin{figure}
+	\includegraphics[width=\linewidth]{Moduloss-subrecenv.png}
+	\caption{Vista general del subsistema de recolección y envío}
+	\label{fig:subrecenv}
+\end{figure}
+
+
 
 
 
