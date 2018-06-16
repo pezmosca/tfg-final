@@ -1,0 +1,224 @@
+\chapter{Reproducción del sistema}
+
+En el siguiente anexo se detalla como reproducir los módulos de recepción, ingesta, transformación y almacenamiento en un solo nodo. Algunas configuraciones difieren de las del sistema en producción por el hecho de reproducirse en solo un nodo. Se supone un nodo con Ubuntu 16.04 Server Edition y con jre 1.8.0 instalado.
+
+\section{Módulo de recepción}
+\subsection{Adquisición de la herramientas}
+Para adquirir esta herramienta se ha de rellenar un formulario en la siguiente web:
+
+\href{https://www.confluent.io/download/}{https://www.confluent.io/download}
+
+Se descargará en el home para simplificar la reproducción.
+
+\subsection{Instalación de las herramientas}
+La herramienta será instalada en el home para simplificar la reproducción, suponiendo que la herramienta está en el home y suponiendo la versión 4.1.1-2.11:
+
+\begin{lstlisting}[language=Bash]
+tar xzf confluent-oss-4.1.1-2.11.tar.gz
+mv confluent-oss-4.1.1-2.11.tar.gz confluent
+
+sudo systemctl enable kafka-rest.service
+\end{lstlisting}
+
+\subsubsection{kafka-rest.service}
+\begin{lstlisting}[language=Bash]
+[Unit]
+Description=Apache Kafka HTTP Proxy
+Documentation=https://docs.confluent.io/current/kafka-rest/docs/index.html
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target
+
+[Service]
+Type=simple
+User=user
+Group=user
+ExecStart=/home/user/confluent/bin/kafka-rest-start /home/user/confluent/etc/kafka-rest/kafka-rest.properties
+ExecStop=/home/user/confluent/bin/kafka-rest-stop
+
+[Install]
+WantedBy=multi-user.target
+\end{lstlisting}
+
+\subsection{Configuración de las herramientas}
+La configuración por defecto es valida para este ejemplo.
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Módulo de ingesta}
+\subsection{Adquisición de las herramientas}
+\begin{lstlisting}[language=Bash]
+wget http://apache.rediris.es/kafka/1.1.0/kafka_2.11-1.1.0.tgz
+\end{lstlisting}
+
+\subsection{Instalación de las herramientas}
+La herramienta será instalada en el home para simplificar la reproducción, suponiendo que la herramienta está en el home y suponiendo la versión 1.1.0:
+\begin{lstlisting}[language=Bash]
+tar xzf kafka_2.11-1.1.0.tgz
+mv kafka_2.11-1.1.0.tgz kafka
+
+sudo systemctl enable kafka.service
+\end{lstlisting}
+
+\subsubsection{kafka.service}
+\begin{lstlisting}[language=Bash]
+[Unit]
+Description=Apache Kafka server (broker)
+Documentation=http://kafka.apache.org/documentation.html
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target
+
+[Service]
+Type=simple
+User=user
+Group=user
+ExecStart=/home/user/kafka/bin/kafka-server-start.sh /home/user/kafka/config/server.properties
+ExecStop=/home/user/kafka/bin/kafka-server-stop.sh
+
+[Install]
+WantedBy=multi-user.target
+\end{lstlisting}
+
+\subsection{Configuración de las herramientas}
+La configuración por defecto es valida para este ejemplo.
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Módulo de procesado}
+\subsection{Adquisición de las herramientas}
+\begin{lstlisting}[language=Bash]
+wget https://artifacts.elastic.co/downloads/logstash/logstash-6.3.0.tar.gz
+\end{lstlisting}
+
+\subsection{Instalación de las herramientas}
+La herramienta será instalada en el home para simplificar la reproducción, suponiendo que la herramienta está en el home y suponiendo la versión 6.3.0:
+\begin{lstlisting}[language=Bash]
+tar xzf logstash-6.3.0.tar.gz
+mv logstash-6.3.0.tar.gz logstash
+
+sudo systemctl enable logstash.service
+\end{lstlisting}
+\subsubsection{logstash.service}
+\begin{lstlisting}[language=Bash]
+[Unit]
+Documentation=https://www.elastic.co/products/logstash
+After=network.target
+ConditionPathExists=/home/ec2-user/logstash/tfg-pipeline.conf
+
+[Service]
+User=user
+ExecStart=/home/user/logstash/bin/logstash -f /home/user/logstash/tfg-pipeline.conf --config.reload.automatic
+
+[Install]
+WantedBy=multi-user.target
+\end{lstlisting}
+
+\subsection{Configuración de las herramientas}
+La configuración por defecto es no valida para este ejemplo. 
+
+
+\subsubsection{Logstash}
+Se ha de generar una pipeline para procesar los eventos. Tal pipeline se ha de crear en ~/logstash/tfg-pipeline.conf y el contenido ha de ser el siguiente:
+
+\begin{lstlisting}
+input {
+  kafka {
+    bootstrap_servers => "localhost:9092"
+    topics => ["log", "crashout"]
+    group_id => "truman-logstash"
+    codec => json
+    decorate_events => true
+  }
+}
+
+filter {
+  if [@metadata][kafka][topic] == "log" {
+    mutate {
+      rename => { "T" => "ExecutionTime"
+      "T2" => "Timestamp"
+      "L" => "Level"
+      "TN" => "ThreadName"
+      "LN" => "Class"
+      "M" => "Message"
+      }
+    }
+  }
+}
+
+output {
+
+  if[@metadata][kafka][topic] == "log" {
+    elasticsearch {
+      hosts => [ "localhost:9200" ]
+      index => "logs"
+    }
+  }
+
+
+  if[@metadata][kafka][topic] == "crashout" {
+    elasticsearch {
+      hosts => [ "localhost:9200" ]
+      index => "crashes"
+    }
+  }
+}
+\end{lstlisting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Módulo de almacenamiento}
+\subsection{Adquisición de las herramientas}
+\begin{lstlisting}[language=Bash]
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.0.tar.gz
+wget https://artifacts.elastic.co/downloads/kibana/kibana-6.3.0-linux-x86_64.tar.gz
+\end{lstlisting}
+
+\subsection{Instalación de las herramientas}
+La herramienta será instalada en el home para simplificar la reproducción, suponiendo que las herramientas están en el home y suponiendo la versión 6.3.0 de todas ellas:
+\begin{lstlisting}[language=Bash]
+tar xzf elasticsearch-6.3.0.tar.gz
+mv elasticsearch-6.3.0.tar.gz elasticsearch
+
+tar xzf kibana-6.3.0.tar.gz
+mv kibana-6.3.0.tar.gz kibana
+
+sudo systemctl enable elasticsearch.service
+sudo systemctl enable kibana.service
+\end{lstlisting}
+
+\subsubsection{elasticsearch.service}\label{cap:elasticsearch}
+\begin{lstlisting}[language=Bash]
+[Unit]
+Documentation=https://www.elastic.co/products/elasticsearch
+After=network.target
+
+[Service]
+User=user
+Group=user
+LimitMEMLOCK=infinity
+LimitNOFILE=65536
+ExecStart=/home/user/elasticsearch/bin/elasticsearch
+
+[Install]
+WantedBy=multi-user.target
+\end{lstlisting}
+
+\subsubsection{kibana.service}\label{cap:kibana}
+\begin{lstlisting}[language=Bash]
+[Unit]
+Description=Kibana
+After=network.target
+
+[Service]
+ExecStart=/home/user/kibana/bin/kibana
+Type=simple
+Restart=always
+
+[Install]
+WantedBy=default.target
+\end{lstlisting}
+
+
+\subsection{Configuración de las herramientas}
+La configuración por defecto es valida para este ejemplo.
+
+
