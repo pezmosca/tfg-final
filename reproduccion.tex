@@ -173,7 +173,7 @@ wget https://artifacts.elastic.co/downloads/kibana/kibana-6.3.0-linux-x86_64.tar
 \end{lstlisting}
 
 \subsection{Instalación de las herramientas}
-La herramienta será instalada en el home para simplificar la reproducción, suponiendo que las herramientas están en el home y suponiendo la versión 6.3.0 de todas ellas:
+La herramienta será instalada en el home para simplificar la reproducción, suponiendo que las herramientas están en el home y suponiendo la versión 6.3.0 de todas ellas. Para adquirir JIRA se ha de acceder mediante un navegador web a \href{https://es.atlassian.com/software/jira/download}{https://es.atlassian.com/software/jira/download} y descargarlo.
 \begin{lstlisting}[language=Bash]
 tar xzf elasticsearch-6.3.0.tar.gz
 mv elasticsearch-6.3.0.tar.gz elasticsearch
@@ -183,6 +183,9 @@ mv kibana-6.3.0.tar.gz kibana
 
 sudo systemctl enable elasticsearch.service
 sudo systemctl enable kibana.service
+
+sudo chmod +x atlassian-jira-software-7.10.1-x64.bin
+sudo ./atlassian-jira-software-7.10.1-x64.bin
 \end{lstlisting}
 
 \subsubsection{elasticsearch.service}\label{cap:elasticsearch}
