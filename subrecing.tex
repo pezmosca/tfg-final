@@ -65,7 +65,7 @@ Para el módulo de ingesta se ha escogido utilizar Kafka Rest Proxy\cite{Tfg:kaf
 
 \subsection{Módulo de recepción}
 
-En el capítulo \ref{cap:despligue} se hablará con más detalle de que este módulo a parte de máquinas tiene un balanceador de carga que distribuye el trabajo entre las máquinas. Configurar ese balanceador de carga también forma parte de la configuración de este módulo. A ese balanceador se le ha tenido que decir que las peticiones REST que vengan por un puerto en concreto las redirija a las máquinas que forman el módulo de recepción.
+En el Capítulo \ref{cap:despligue} se hablará con más detalle de que este módulo a parte de máquinas tiene un balanceador de carga que distribuye el trabajo entre las máquinas. Configurar ese balanceador de carga también forma parte de la configuración de este módulo. A ese balanceador se le ha tenido que decir que las peticiones REST que vengan por un puerto en concreto las redirija a las máquinas que forman el módulo de recepción.
 \\\\
 A las máquinas que forman el módulo de recepción se le ha tenido que configurar el destino de los mensajes recibidos, es decir, que envíen los mensajes que reciben del módulo de envío al módulo de ingesta. También se le ha tenido que dotar de una id única para que el módulo de ingesta reconozca las máquinas.
 
