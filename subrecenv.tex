@@ -45,7 +45,7 @@ Para llevar a cabo la recolección de logs se ha utilizado la librería Logback\
 Para llevar a cabo la recolección de crashlogs se ha utilizado la librería ACRA\cite{Tfg:acra}. Esta librería detecta cuando una aplicación ha acabado inesperadamente y genera un crashlog con información de valor para reconocer que puede haber pasado. Esta librería también permite redirigir la salida del crashlog a diferentes destinos, editar el formato de salida del crashlog y la metainformación que se añade al crashlog.
 
 \subsection{Módulo de envío}
-Para llevar a cabo el envío de logs y crashlogs se ha utilizado la librería OkHttp\cite{Tfg:okhttp} que permite hacer peticiones HTTP. Se ha escogido esta librería por la rapidez con la que se puede programar lo que se desea para este proyecto, a parte del uso eficiente que hace de los recursos del sistema.
+Para llevar a cabo el envío de logs y crashlogs se ha utilizado la librería OkHttp\cite{Tfg:okhttp} que permite hacer peticiones HTTP\cite{Tfg:HTTPv1-1}. Se ha escogido esta librería por la rapidez con la que se puede programar lo que se desea para este proyecto, a parte del uso eficiente que hace de los recursos del sistema.
 
 \section{Configuración del subsistema}
 
@@ -95,7 +95,7 @@ Del módulo de envío se han configurado los siguiente factores:
 	
 	\item \textbf{Destino}: El destino tanto de los logs como de los crashlogs es el módulo de recepción, por lo que se ha configurado para que sean enviados ahí. Dentro del módulo de ingesta, logs y crashlogs van a destinos lógicos diferentes, por lo que también se ha configurado su destino dentro del módulo de ingesta.
 	
-	\item \textbf{Cómo se hace el envío}: En el caso de crashlogs no hay más opción a que cada petición POST hacía el módulo de recepción contenga tan solo un crashlog. En el caso de los logs se puede enviar una petición POST por cada log o envíar una petición POST con todos los logs recolectados durante la sesión. Se ha escogido enviar una sola petición POST con todos los logs recolectados para no saturar al módulo de recepción atendiendo peticiones.
+	\item \textbf{Cómo se hace el envío}: En el caso de crashlogs no hay más opción a que cada petición HTTP POST hacía el módulo de recepción contenga tan solo un crashlog. En el caso de los logs se puede enviar una petición HTTP POST por cada log o envíar una petición HTTP POST con todos los logs recolectados durante la sesión. Se ha escogido enviar una sola petición HTTP POST con todos los logs recolectados para no saturar al módulo de recepción atendiendo peticiones.
 \end{itemize}
 
 \subsection{Vista general del subsistema}
