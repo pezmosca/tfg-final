@@ -12,7 +12,7 @@ Para desplegar este subsistema tan solo se necesita un dispositivo Android. La v
 
 \subsection{Subsistema de recepción e ingesta}
 \subsubsection{Módulo de recepción}
-Este módulo hace un uso intensivo de CPU y red. Cuando a Kafka Rest Proxy se le hacen peticiones de POST, es decir, el módulo de envío no consume datos, explota el paralelismo de la CPU, a más cores, más peticiones podrá atender a la vez. El uso de RAM que hace este módulo es modesto y con que pueda soportar 1GB de heap es suficiente. El uso de red es elevado, puesto que ha de ser capaz de soportar diversas conexiones concurrentes en las cuales se pueden transmitir gran cantidad de datos. El uso de disco es mínimo, ya que no almacena ninguna información en ellos.
+Este módulo hace un uso intensivo de CPU y red\cite{Tfg:restproxykafka}. El uso de red es elevado, puesto que ha de ser capaz de soportar diversas conexiones concurrentes en las cuales se pueden transmitir gran cantidad de datos. El uso de CPU es intensivo ya que cada petición POST la atiende un thread. Kafka Rest Proxy explota el paralelismo de la CPU, a más cores, más peticiones podrá atender. El uso de RAM que hace este módulo es modesto y con que pueda soportar 1GB de heap es suficiente. El uso de disco es mínimo, ya que no almacena ninguna información en ellos.
 \\
 
 La máquina escogida para desplegar este módulo ha sido la c5.2xlarge, en la tabla \ref{tabla:c5.2xlarge} se pueden ver sus recursos hardware.
@@ -43,7 +43,7 @@ Con tal despliegue se puede soportar que caigan dos máquinas y aún el módulo 
 \subsubsection{Módulo de ingesta}
 Este módulo hace un uso intensivo de RAM, red y disco. Para que Apache Kafka pueda funcionar necesita un orquestador que dirija y balancee los diferentes nodos (brokers) de Apache Kafka. Este orquestador es Apache Zookeeper. Apache Kafka y Apache Zookeeper hacen un uso diferente de los recursos, para no sobredimensionar las máquinas y reducir costes, Kafka y Zookeeper se desplegarán en máquinas con diferentes recursos.
 \\\\
-El uso que hace Kafka de los recursos es el siguiente:
+El uso que hace Kafka de los recursos es el siguiente\cite{Tfg:kafkadeploy}:
 
 \begin{itemize} 
 	\item \textbf{CPU}: Hace un uso ligero de CPU, si se ha de elegir entre CPUs rápidas o con muchos cores, mejor una con muchos cores.
@@ -52,7 +52,7 @@ El uso que hace Kafka de los recursos es el siguiente:
 	\item \textbf{HDD}: Hace un uso intensivo de disco, se necesita espacio dependiendo del volumen de datos a tratar y un throughput elevado.
 \end{itemize}
 
-El uso que hace Zookeeper de los recursos es el siguiente:
+El uso que hace Zookeeper de los recursos es el siguiente\cite{Tfg:zookeeperdeploy}:
 
 \begin{itemize} 
 	\item \textbf{CPU}: Hace un uso ligero de CPU.
@@ -86,7 +86,7 @@ El despliegue del subsistema de transformación es particular puesto que un mód
 \subsubsection{Módulo de transformación}
 Al estar dividido el módulo de transformación en dos submódulos y encargarse de tareas diferentes, el uso de los recursos es diferente en los dos submódulos. 
 \\
-Para el submódulo de propósito específico se ha desplegar Logstash, en la documentación de la herramienta no se deja del todo claro los requerimientos hardware, pero por su naturaleza se ha supuesto que hace un uso intensivo de CPU, RAM y red, y un uso ligero de disco. De momento se ha desplegado en una r4.xlarge, en la tabla \ref{tabla:kafkazookeeper} se puede ver sus recursos hardware. Como trabajo futuro, se ha monitorear el rendimiento de este submódulo para ver el uso de los recursos que hace, y cambiar si fuera necesario la máquina utilizada.
+Para el submódulo de propósito específico se ha desplegar Logstash, en la documentación de la herramienta no se deja del todo claro los requerimientos hardware\cite{Tfg:logstashdeploy}, pero por su naturaleza se ha supuesto que hace un uso intensivo de CPU, RAM y red, y un uso ligero de disco. De momento se ha desplegado en una r4.xlarge, en la tabla \ref{tabla:kafkazookeeper} se puede ver sus recursos hardware. Como trabajo futuro, se ha monitorear el rendimiento de este submódulo para ver el uso de los recursos que hace, y cambiar si fuera necesario la máquina utilizada.
 \\
 Para el submódulo de propósito general se ha de desplegar la aplicación Java que utiliza Kafka Streams. El despliegue de máquinas para este submódulo depende mucho del volumen de datos que se hayan de procesar, para la demostración se va a suponer un volumen de datos pequeño, tan solo para verificar que la solución funciona. La máquina escogida es una t2.micro en la tabla \ref{tabla:t2.micro} se pueden ver sus recursos hardware.
 
