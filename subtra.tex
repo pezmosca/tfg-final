@@ -2,7 +2,13 @@
 
 \section{Arquitectura del subsistema}
 
-El subsistema de transformación está formado por dos módulos, los cuales actúan fuera del dispositivo ubicuo. Esta es una división a nivel lógico y existe para reducir a problemas más simples el problema general, aunque nada impide que una herramienta implemente dos módulos.
+\begin{figure}[!htb]
+	\includegraphics[width=\linewidth]{Moduloss-subtran.png}
+	\caption{Vista general del subsistema de recolección y envío}
+	\label{fig:subtra}
+\end{figure}
+
+El subsistema de transformación está formado por dos módulos, los cuales actúan fuera del dispositivo ubicuo. Esta es una división a nivel lógico y existe para reducir a problemas más simples el problema general, aunque nada impide que una herramienta implemente dos módulos. En la figura \ref{fig:subtra} se puede ver como se relacionan los módulos y las herramientas del subsistema. Las flechas indican el sentido del flujo de datos.
 
 \subsection{Módulo de transformación}
 
@@ -83,14 +89,12 @@ Para los crashlogs, lo que se pretende es que cuando se produzca el mismo crashl
 Este módulo ya está configurado por la empresa, por lo que la configuración que se va a hacer es una que permita ver que el sistema funciona como se espera el día de la presentación.
 \\\\
 En JIRA se ha creado un proyecto, en el cual se publican los tickets con la información sobre los crashlogs.
-En Elastic Search se ha creado dos índices, uno para los logs y otro para los crashlogs.
+En Elastic Search se han creado dos índices, uno para los logs y otro para los crashlogs.
 
-\subsection{Vista general del subsistema}
-En la figura \ref{fig:subtra} se puede ver como se relacionan los módulos y las herramientas del subsistema. Las flechas indican el sentido del flujo de datos.
+\section{Integración con el entorno}
+El módulo de transformación se ha de integrar con un módulo de almacenamiento ya existente en la empresa, en concreto se ha de integrar con JIRA y con Elastic Search. De la integración con JIRA se espera que el sistema sea capaz de crear un ticket en JIRA con información obtenida de los eventos. De la integración con Elastic Search se espera que el sistema sea capaz de publicar información, obtenida de las alertas, en dos índices de Elastic Search con el objetivo de que la información publicada sea visible en Kibana.
 
-\begin{figure}
-	\includegraphics[width=\linewidth]{Moduloss-subtran.png}
-	\caption{Vista general del subsistema de recolección y envío}
-	\label{fig:subtra}
-\end{figure}
+
+
+
 

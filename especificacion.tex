@@ -1,7 +1,18 @@
 \chapter{Especificación de la arquitectura}
 
 \section{Arquitectura del sistema}
-La arquitectura del sistema se divide en tres partes o subsistemas, cada subsistema tiene una tarea diferenciada dentro del sistema, se puede encontrar una relación entre cada subsistema y las diferentes fases del proceso ETL. Los subsistemas son los siguientes:
+
+\begin{figure}[!htb]
+	
+	\includegraphics[width=\linewidth] {Moduloss-arquitecturaparcial.png}
+	\caption{Vista parcial de la arquitectura del sistema}
+	\label{fig:arqparcial}
+\end{figure}
+
+La arquitectura del sistema se divide en tres partes o subsistemas, cada subsistema tiene una tarea diferenciada dentro del sistema. En la figura \ref{fig:arqparcial} se puede ver una vista parcial de como se relacionan los subsistemas y los módulos del sistema. Las flechas indican el sentido del flujo de datos.
+ 
+ 
+ Los subsistemas son los siguientes:
 
 \begin{itemize}
 	\item \textit{Subsistema de recolección y envío}: Está compuesto de dos módulos, el de recolección y el de envío. El módulo de recolección se encarga de recoger los eventos en el dispositivo ubicuo. El módulo de envío se encarga de enviar los eventos recogidos por el módulo de recolección al módulo de recepción del subsistema de recepción e ingesta.
@@ -11,15 +22,7 @@ La arquitectura del sistema se divide en tres partes o subsistemas, cada subsist
 	\item \textit{Subsistema de transformación}:  Está compuesto por dos módulos, el de transformación y el de almacenamiento. El módulo de transformación se encarga de transformar los eventos que consume del módulo de ingesta y de enviarlos al módulo de almacenamiento. El módulo de almacenamiento recibe los eventos transformados del módulo de transformación y los almacena.
 \end{itemize}
 
-\subsection{Vista parcial de la arquitectura}
-En la figura \ref{fig:arqparcial} se puede ver como se relacionan los subsistemas y los módulos del sistema. Las flechas indican el sentido del flujo de datos.
+La arquitectura propuesta cumple con las fases del proceso ETL. Los encargados de la Extracción son el subsistema de recolección y envío, y el subsistema de recepción e ingesta. El encargado de la Transformación y la Carga es el subsistema de transformación.
 
-\begin{figure}[!htb]
-	
-	\includegraphics[width=\linewidth] {Moduloss-arquitecturaparcial.png}
-	\caption{Vista parcial de la arquitectura del sistema}
-	\label{fig:arqparcial}
-\end{figure}
+Esta arquitectura está basada en la arquitectura Kappa\cite{Tfg:kappa}, siendo el módulo de ingesta el que implemente la capa de almacenamiento de datos, el módulo de transformación el que implemente la capa de Stream Processing y el módulo de almacenamiento el que implemente la capa en la cual se sirven los datos.
 
-\section{Integración con el entorno}
-El sistema se ha de integrar con JIRA y con Elastic Search. De la integración con JIRA se espera que el sistema sea capaz de crear un ticket en JIRA con información obtenida de los eventos. De la integración con Elastic Search se espera que el sistema sea capaz de publicar información, obtenida de las alertas, en un índice de Elastic Search con el objetivo de que la información publicada sea visible en Kibana.

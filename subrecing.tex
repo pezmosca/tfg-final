@@ -2,7 +2,13 @@
 
 \section{Arquitectuta del subsistema}
 
-El subsistema de recepción e ingesta está formado por dos módulos, los cuales actúan fuera del dispositivo ubicuo. Esta es una división a nivel lógico y existe para reducir a problemas más simples el problema general, aunque nada impide que una herramienta implemente dos módulos.
+\begin{figure}[!htb]
+	\includegraphics[width=\linewidth]{Moduloss-subrecing.png}
+	\caption{Vista general del subsistema de recolección y envío}
+	\label{fig:subrecing}
+\end{figure}
+
+El subsistema de recepción e ingesta está formado por dos módulos, los cuales actúan fuera del dispositivo ubicuo. Esta es una división a nivel lógico y existe para reducir a problemas más simples el problema general, aunque nada impide que una herramienta implemente dos módulos. En la figura \ref{fig:subrecing} se puede ver como se relacionan los módulos y las herramientas del subsistema. Las flechas indican el sentido del flujo de datos.
 
 \subsection{Módulo de recepción}
 
@@ -82,12 +88,6 @@ A parte, el sistema nos permite definir una política de limpieza para los datos
 
 Como en Kafka se puede forman un cluster de máquinas, a cada máquina se le ha tenido que configurar a qué cluster pertenece.
 
-\subsection{Vista general del subsistema}
-En la figura \ref{fig:subrecing} se puede ver como se relacionan los módulos y las herramientas del subsistema. Las flechas indican el sentido del flujo de datos.
 
-\begin{figure}
-	\includegraphics[width=\linewidth]{Moduloss-subrecing.png}
-	\caption{Vista general del subsistema de recolección y envío}
-	\label{fig:subrecing}
-\end{figure}
+
 
