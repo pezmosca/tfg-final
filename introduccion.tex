@@ -1,7 +1,18 @@
 \chapter{Introducción y motivaciones}
 
 \section{Introducción}
-Este proyecto es un Trabajo de Final de Grado de la modalidad B de la especialidad Tecnologías de la Información. El presente trabajo se hace en colaboración con la empresa LudiumLab S.L. la cual es propietaria y creadora del servicio de cloud gaming Play Everywhere. Este servicio consiste en permitir a sus usuarios jugar a juegos diseñados para Windows PC desde otros dispositivos como podrían ser smartphones, tabletas o navegadores web. Dado que la empresa da servicio a dispositivos ubicuos, tiene la necesidad de recolectar y procesar alertas para que sus programadores corrijan comportamientos anómalos de la aplicación que se ejecuta en dichos dispositivos. Por lo que este trabajo será un caso de estudio para dar solución a la problemática de la empresa de recolectar y procesar alertas para darle información de valor a sus programadores.
+
+\begin{figure}[!htb]
+	\includegraphics[width=\linewidth] {Moduloss-Intro.png}
+	\caption{Vista parcial de la arquitectura del sistema}
+	\label{fig:intro}
+\end{figure}
+
+Este proyecto es un Trabajo de Final de Grado de la modalidad B de la especialidad Tecnologías de la Información. El presente trabajo se hace en colaboración con la empresa LudiumLab S.L. la cual es propietaria y creadora del servicio de cloud gaming Play Everywhere. Este servicio consiste en permitir a sus usuarios jugar a juegos diseñados para Windows PC desde otros dispositivos como podrían ser smartphones, tabletas o navegadores web. 
+
+Dado que la empresa da servicio a dispositivos ubicuos, tiene la necesidad de recolectar y procesar alertas para que sus programadores corrijan comportamientos anómalos de la aplicación que se ejecuta en dichos dispositivos. Por lo que este trabajo será un caso de estudio para dar solución a la problemática de la empresa de recolectar y procesar alertas para darle información de valor a sus programadores.
+
+En la Figura \ref{fig:intro} se puede ver como un dispositivo ubicuo está jugando a un videojuego diseñado para Windows PC y se lo sirve el Backend de Ludium, este flujo de datos es el existente en la empresa. En la Figura \ref{fig:intro} también se ve otro flujo de datos que va del dispositivo ubicuo al Sistema de monitorización y seguimiento de errores, este flujo de datos es el que se va desarrollar en este trabajo. Existe un flujo de datos entre el Sistema de monitorización y seguimiento de errores, y el Backend de Ludium puesto que el sistema que se va a desarrollar se ha de integrar con ciertas partes del Backend de Ludium.
 
 \section{Contexto}
 Las aplicaciones ubicuas \cite{Tfg:ubiquitous} se han convertido ya en una constante en la vida diaria. En especial las aplicaciones dirigidas a los smartphones. Cada día aparecen nuevas aplicaciones que hacen que la informática se integre en el entorno de la persona, apareciendo en cualquier lugar y en cualquier momento. Este hecho genera nuevos retos para los desarrolladores, como pudiera ser la detección y seguimiento de errores que puedan producirse en tales aplicaciones. Las aplicaciones ubicuas hoy día pueden ejecutarse en un gran número de dispositivos. Este trabajo se centrará en los smartphones y en especial en aquellos que ejecutan Android como sistema operativo.
