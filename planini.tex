@@ -5,7 +5,7 @@ En este Capítulo se muestra la planificación que se hizo antes de iniciar el p
 \section{Identificación de tareas}
 \textbf{Aprendizaje:} El desarrollador del proyecto es la primera vez que se enfrenta a elementos de Big Data. Necesita un tiempo para analizar el estado del arte del campo del Big Data antes de ponerse a diseñar y organizar el sistema, por lo que la tarea se basa en adquirir los conocimientos esenciales del mundo del Big Data processing y del mundo de la recolección de eventos en aplicaciones ubicuas, en especial dispositivos Android. Del mundo del Big Data processing se profundizará sobretodo en los diferentes agentes que intervienen para poder luego diseñar una solución al problema propuesto por el proyecto. Esta tarea no necesita ningún recurso dado que se utilizará información libre de Internet.
 
-\textbf{Desarrollo del sistema:} Delimitar el sistema en subsistemas y estos subsistemas en módulos reconociendo dependencias entre ellos. Se puede delimitar el sistema en tres subsistemas, el de recolección y envío, el de recepción e ingesta y el de procesado. Para cada subsistema se tendrán que realizar las tareas siguientes:
+\textbf{Desarrollo del sistema:} Delimitar el sistema en subsistemas y estos subsistemas en módulos reconociendo dependencias entre ellos. Se puede delimitar el sistema en tres subsistemas, el de recolección y envío, el de recepción e ingesta y el de transformación. Para cada subsistema se tendrán que realizar las tareas siguientes:
 \begin{itemize}
 	
 	\item \textbf{Delimitación de módulos:} Establecer las funcionalidades del módulo y cómo interacciona con los módulos adyacentes.
@@ -41,9 +41,9 @@ En este Capítulo se muestra la planificación que se hizo antes de iniciar el p
 \textbf{Testeo del sistema en producción:} Todo el sistema desplegado, incluida la integración de JIRA, será sometido a una serie de escenarios posibles para comprobar que los diferentes elementos del sistema se relacionan correctamente entre ellos y se producen los resultados esperados.
 
 \section{Tabla de tiempo}
-En la Tabla 1 se muestran de forma general las tareas a realizar y el tiempo que se va a emplear para realizar tales tareas, en la sección 6.6 se especificarán con más detalle.
+En la Tabla \ref{tab:tiempoplanini} se muestran, de forma general, las tareas a realizar y el tiempo que se va a emplear para realizar tales tareas, en la sección \ref{sec:ganttantiguo} se especificarán con más detalle.
 
-\begin{table}[H]
+\begin{table}[H]\label{tab:tiempoplanini}
 	\centering
 	\begin{tabular}{|l|l|}
 		\hline
@@ -69,7 +69,7 @@ El sistema de recolección y envío de eventos ha de preceder al sistema de tran
 
 La integración con JIRA no tiene sentido hasta que todos los subsistemas no se hayan llevado a cabo.
 
-\section{Diagrama de Gantt}
+\section{Diagrama de Gantt}\label{sec:ganttantiguo}
 En el Anexo \ref{cap:ganttanex} la Figura \ref{fig:ganttini} muestra el diagrama de Gantt de la planificación inicial, en él se especifican cada una de las tareas, su fecha de inicio y fin, su duración en horas y el coordinador o responsable de cada tarea. Se ven también las restricciones temporales de cada tarea.
 
 Las tareas marcadas en rojo indican un riesgo alto a que causen posibles desviaciones.
