@@ -31,14 +31,14 @@ El envío de los crashlogs lo hace cuando la aplicación se ha cerrado inesperad
 \section{Estructura del sistema}
 
 \subsection{Módulo de recolección}
-El módulo de recolección está integrado por dos librerías. Una librería se encarga de recolectar los logs y otra los crashlogs.
+Tal y como se aprecia en la Figura \ref{fig:subrecenv}, el módulo de recolección está integrado por dos librerías. Una librería se encarga de recolectar los logs y otra los crashlogs.
 \\\\
 La librería encargada de recolectar logs como mínimo ha de permitir que el programador defina logs en el punto del programa donde este considere oportuno, y que se pueda definir el destino de los logs.
 
 La librería encargada de recolectar crashlogs como mínimo ha de identificar cuando se ha producido un cierre inesperado de la aplicación, recuperar el error que ha notificado el sistema sobre el cierre inesperado, formar un crashlog con la información recopilada y permitir definir el destino del crashlog.
 
 \subsection{Módulo de envío}
-El módulo de envío está integrado por una librería. Esta librería se encarga de enviar los logs y los crashlogs recolectados mediantes peticiones HTTP. Como mínimo esta librería ha de poder formar una petición HTTP conteniendo los eventos recolectados, y enviarla a un destino.
+Tal y como se aprecia en la Figura \ref{fig:subrecenv}, el módulo de envío está integrado por una librería. Esta librería se encarga de enviar los logs y los crashlogs recolectados mediantes peticiones HTTP. Como mínimo esta librería ha de poder formar una petición HTTP conteniendo los eventos recolectados, y enviarla a un destino.
 
 \section{Herramientas utilizadas}
 
@@ -60,9 +60,9 @@ Para llevar a cabo el envío de logs y crashlogs se ha utilizado la librería Ok
 Del módulo de recolección se han configurado los siguientes factores:
 
 \subsubsection{Metadatos}
-Metadatos hace referencia a toda la información que se recolecta a parte de la información de valor del evento. La información de valor n el caso de los logs es el mensaje de define el programador, en el caso de los crashlogs es el mensaje de error del crash.
+Metadatos hace referencia a toda la información que se recolecta a parte de la información de valor del evento. La información de valor en el caso de los logs es el mensaje que define el programador, en el caso de los crashlogs es el mensaje de error del crash.
 
-De los los logs se recogen metadatos porque se consideran útiles para entender el contexto del log, los metadatos que se recogen son:
+De los logs se recogen metadatos porque se consideran útiles para entender el contexto del log, los metadatos que se recogen son:
 
 \begin{itemize}	
 	\item \textbf{Hora del evento}: Hora en la que se produce el evento
@@ -84,10 +84,10 @@ De los los crashlogs se recogen metadatos porque se consideran útiles para ente
 \end{itemize}
 
 \subsubsection{Formato}
-El formato escogido para representar tanto logs, como crashlogs ha sido un objeto JSON puesto que nos aporta el poder tratar el evento de manera fácil y para cumplir con los requisitos de formato que exige el módulo de recepción. Cada dato que se quiere incluir en el evento es un par clave-valor, donde la clave es fija y el valor depende del estado del dispositivo. Las claves de los crahslogs no se han podido definir, sino que ACRA define las que han de ser. En el caso de los logs sí que se han podido definir, para reducir el uso de red y de almacenamiento estas claves son tan solo un carácter, el módulo de transformación se configurará para que sea capaz de enriquecer los logs y de reconocer que significa cada carácter. 
+El formato escogido para representar tanto logs, como crashlogs ha sido un objeto JSON puesto que aporta el poder tratar el evento de manera fácil y para cumplir con los requisitos de formato que exige el módulo de recepción. Cada dato que se quiera incluir en el evento es un par clave-valor, donde la clave es fija y el valor depende del estado del dispositivo. Las claves de los crahslogs no se han podido definir, sino que ACRA define las que han de ser. En el caso de los logs sí que se han podido definir, para reducir el uso de red y de almacenamiento estas claves son tan solo un carácter, el módulo de transformación se configurará para que sea capaz de enriquecer los logs y de reconocer que significa cada carácter. 
 
 \subsubsection{Destino}
-Destino hace referencia a donde se envían los eventos una vez se han recolectado. 
+Destino hace referencia a dónde se envían los eventos una vez se han recolectado. 
 Los logs no pasan directamente al módulo de envío, sino que se almacenan en un archivo de texto en el dispositivo ubicuo para que cuando la aplicación se cierre, el módulo de envío los consuma de ese archivo.
 Los crashlogs pasan directamente a disposición del módulo de envío una vez se recolectan. No se almacenan en persistencia. 
 

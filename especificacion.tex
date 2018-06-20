@@ -21,7 +21,7 @@ La arquitectura del sistema se divide en tres partes o subsistemas, cada subsist
 	\item \textit{Subsistema de transformación}:  Está compuesto por dos módulos, el de transformación y el de almacenamiento. El módulo de transformación se encarga de transformar los eventos que consume del módulo de ingesta y de enviarlos al módulo de almacenamiento. El módulo de almacenamiento recibe los eventos transformados del módulo de transformación y los almacena.
 \end{itemize}
 
-La arquitectura propuesta cumple con las fases del proceso ETL. Los encargados de la Extracción son el subsistema de recolección y envío, y el subsistema de recepción e ingesta. El encargado de la Transformación y la Carga es el subsistema de transformación.
+La arquitectura propuesta cumple con las fases del proceso ETL. Los encargados de la Extracción son el subsistema de recolección y envío junto con el subsistema de recepción e ingesta. El encargado de la Transformación y la Carga es el subsistema de transformación.
 
 Esta arquitectura está basada en la arquitectura Kappa\cite{Tfg:kappa}, siendo el módulo de ingesta el que implemente la capa de almacenamiento de datos, el módulo de transformación el que implemente la capa de Stream Processing y el módulo de almacenamiento el que implemente la capa en la cual se sirven los datos.
 
