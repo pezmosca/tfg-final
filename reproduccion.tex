@@ -8,10 +8,10 @@ Para adquirir esta herramienta se ha de rellenar un formulario en la siguiente w
 
 \href{https://www.confluent.io/download/}{https://www.confluent.io/download}
 
-Se descargará en el home para simplificar la reproducción.
+Se descargará en el home de Ubuntu para simplificar la reproducción.
 
 \subsection{Instalación de las herramientas}
-La herramienta será instalada en el home para simplificar la reproducción, suponiendo que la herramienta está en el home y suponiendo la versión 4.1.1-2.11:
+La herramienta será instalada en el home de Ubuntu para simplificar la reproducción, suponiendo que la herramienta está en el home y suponiendo la versión 4.1.1-2.11:
 
 \begin{lstlisting}[language=Bash]
 tar xzf confluent-oss-4.1.1-2.11.tar.gz
@@ -124,7 +124,7 @@ input {
   kafka {
     bootstrap_servers => "localhost:9092"
     topics => ["log", "crashout"]
-    group_id => "truman-logstash"
+    group_id => "tfg-logstash"
     codec => json
     decorate_events => true
   }

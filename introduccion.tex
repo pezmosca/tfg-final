@@ -10,9 +10,9 @@
 
 Este proyecto es un Trabajo de Final de Grado de la modalidad B de la especialidad Tecnologías de la Información. El presente trabajo se hace en colaboración con la empresa LudiumLab S.L. la cual es propietaria y creadora del servicio de cloud gaming Play Everywhere. Este servicio consiste en permitir a sus usuarios jugar a juegos diseñados para Windows PC desde otros dispositivos como podrían ser smartphones, tabletas o navegadores web. 
 
-Dado que la empresa da servicio a dispositivos ubicuos, tiene la necesidad de recolectar y procesar alertas para que sus programadores corrijan comportamientos anómalos de la aplicación que se ejecuta en dichos dispositivos. Por lo que este trabajo será un caso de estudio para dar solución a la problemática de la empresa de recolectar y procesar alertas para darle información de valor a sus programadores.
+Dado que la empresa da servicio a dispositivos ubicuos, tiene la necesidad de recolectar y procesar eventos para que sus programadores corrijan comportamientos anómalos de la aplicación que se ejecuta en dichos dispositivos. Por lo que este trabajo será un caso de estudio para dar solución a la problemática de la empresa de recolectar y procesar eventos para darle información de valor a sus programadores.
 
-En la Figura \ref{fig:intro} se puede ver como un dispositivo ubicuo está jugando a un videojuego diseñado para Windows PC y se lo sirve el Backend de Ludium, este flujo de datos es el existente en la empresa. En la Figura \ref{fig:intro} también se ve otro flujo de datos que va del dispositivo ubicuo al Sistema de monitorización y seguimiento de errores, este flujo de datos es el que se va desarrollar en este trabajo. Existe un flujo de datos entre el Sistema de monitorización y seguimiento de errores, y el Backend de Ludium puesto que el sistema que se va a desarrollar se ha de integrar con ciertas partes del Backend de Ludium.
+En la Figura \ref{fig:intro} se puede ver como un dispositivo ubicuo está corriendo un videojuego diseñado para Windows PC, este videojuego realmente lo corre el Backend de Ludium y envía el video y el audio al dispositivo, el dispositivo ubicuo envía las acciones a realizar en el videojuego al Backend de Ludium, este flujo de datos es el existente en la empresa. En la Figura \ref{fig:intro} también se ve otro flujo de datos que va del dispositivo ubicuo al Sistema de monitorización y seguimiento de errores, este flujo de datos es el que se va desarrollar en este trabajo. Existe un flujo de datos entre el Sistema de monitorización y seguimiento de errores, y el Backend de Ludium puesto que el sistema que se va a desarrollar se ha de integrar con ciertas partes del Backend de Ludium.
 
 \section{Contexto}
 Las aplicaciones ubicuas \cite{Tfg:ubiquitous} se han convertido ya en una constante en la vida diaria. En especial las aplicaciones dirigidas a los smartphones. Cada día aparecen nuevas aplicaciones que hacen que la informática se integre en el entorno de la persona, apareciendo en cualquier lugar y en cualquier momento. Este hecho genera nuevos retos para los desarrolladores, como pudiera ser la detección y seguimiento de errores que puedan producirse en tales aplicaciones. Las aplicaciones ubicuas hoy día pueden ejecutarse en un gran número de dispositivos. Este trabajo se centrará en los smartphones y en especial en aquellos que ejecutan Android como sistema operativo.
@@ -29,7 +29,7 @@ Se encuentran dos arquitecturas de Big Data distinguidas que aplican las técnic
 
 Una es la arquitectura Lambda \cite{Tfg:lambda}, la cual integra las dos técnicas. Consta de tres capas lógicas, una capa de Batch Processing, otra de Stream Processing y una última capa donde se sirven los datos transformados.
 
-La otra es la arquitectura Kappa \cite{Tfg:kappa}, en la cual se utiliza únicamente Stream Processing. Consta de tres capas lógicas, una capa de Stream Processing, otra de almacenamiento persistente de datos y una última capa donde se sirven los datos transformados.
+La otra es la arquitectura Kappa \cite{Tfg:kappa}, en la cual se utiliza únicamente Stream Processing. Consta de tres capas lógicas, una capa de Stream Processing, otra de almacenamiento persistente de datos sin transformar y una última capa donde se sirven los datos transformados.
 
 \section{Descripción de los sistemas de alertas existentes en la empresa}
 En la empresa no existe un sistema de alertas como tal, pero sí que existen servidores con software de seguimiento de incidencias y servidores de búsqueda donde almacenar los datos procesados. En concreto, el software de seguimiento de incidencias que se utiliza es JIRA\cite{Tfg:jira} y el servidor de búsqueda Elastic Search\cite{Tfg:elasticsearch}. El sistema se integra tanto con JIRA como con Elastic Search.
@@ -39,5 +39,5 @@ En la empresa no existe un sistema de alertas como tal, pero sí que existen ser
 \input{alcance}
 
 \section{Estado del arte}
-En esta sección se muestra el estado del arte de dos partes fundamentales del sistema. Por un lado, la recolección de eventos en Android, y por otro el procesado de eventos. Al final de las sección, se muestran las conclusiones extraídas para la creación del sistema.
+En esta sección se muestra el estado del arte de dos partes fundamentales del sistema. Por un lado, la recolección de eventos en Android, y por otro el procesado de eventos. Al final de la sección, se muestran las conclusiones extraídas para la creación del sistema.
 \input{soa}
