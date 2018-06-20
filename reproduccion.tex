@@ -46,6 +46,7 @@ La configuración por defecto es valida para este ejemplo.
 
 \section{Módulo de ingesta}
 \subsection{Adquisición de las herramientas}
+Se descargará en el home de Ubuntu para simplificar la reproducción.
 \begin{lstlisting}[language=Bash]
 wget http://apache.rediris.es/kafka/1.1.0/kafka_2.11-1.1.0.tgz
 \end{lstlisting}
@@ -85,6 +86,7 @@ La configuración por defecto es valida para este ejemplo.
 
 \section{Módulo de procesado}
 \subsection{Adquisición de las herramientas}
+Se descargará en el home de Ubuntu para simplificar la reproducción.
 \begin{lstlisting}[language=Bash]
 wget https://artifacts.elastic.co/downloads/logstash/logstash-6.3.0.tar.gz
 \end{lstlisting}
@@ -167,13 +169,14 @@ output {
 
 \section{Módulo de almacenamiento}
 \subsection{Adquisición de las herramientas}
+Se descargará en el home de Ubuntu para simplificar la reproducción.
 \begin{lstlisting}[language=Bash]
 wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.0.tar.gz
 wget https://artifacts.elastic.co/downloads/kibana/kibana-6.3.0-linux-x86_64.tar.gz
 \end{lstlisting}
 
 \subsection{Instalación de las herramientas}
-La herramienta será instalada en el home para simplificar la reproducción, suponiendo que las herramientas están en el home y suponiendo la versión 6.3.0 de todas ellas. Para adquirir JIRA se ha de acceder mediante un navegador web a \href{https://es.atlassian.com/software/jira/download}{https://es.atlassian.com/software/jira/download} y descargarlo.
+La herramienta será instalada en el home para simplificar la reproducción, suponiendo que las herramientas están en el home y suponiendo la versión 6.3.0 de Elastic Search, Logstash y Kibana. Para adquirir JIRA se ha de acceder mediante un navegador web a \href{https://es.atlassian.com/software/jira/download}{https://es.atlassian.com/software/jira/download} y descargarlo.
 \begin{lstlisting}[language=Bash]
 tar xzf elasticsearch-6.3.0.tar.gz
 mv elasticsearch-6.3.0.tar.gz elasticsearch
