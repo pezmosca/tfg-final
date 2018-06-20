@@ -26,7 +26,7 @@ sudo systemctl start kafka-rest.service
 \end{lstlisting}
 
 \subsubsection{kafka-rest.service}
-\begin{lstlisting}[language=Bash]
+\begin{lstlisting}[language=Bash, breaklines=true]
 [Unit]
 Description=Apache Kafka HTTP Proxy
 Documentation=https://docs.confluent.io/current/kafka-rest/docs/index.html
@@ -70,7 +70,7 @@ sudo systemctl start kafka.service
 \end{lstlisting}
 
 \subsubsection{zookeeper.service}
-\begin{lstlisting}[language=Bash]
+\begin{lstlisting}[language=Bash, breaklines=true]
 [Unit]
 Description=Apache Zookeeper server (Kafka)
 Documentation=http://zookeeper.apache.org
@@ -89,7 +89,7 @@ WantedBy=multi-user.target
 \end{lstlisting}
 
 \subsubsection{kafka.service}
-\begin{lstlisting}[language=Bash]
+\begin{lstlisting}[language=Bash, breaklines=true]
 [Unit]
 Description=Apache Kafka server (broker)
 Documentation=http://kafka.apache.org/documentation.html
@@ -115,14 +115,14 @@ La configuración por defecto es valida para este ejemplo.
 \section{Módulo de procesado}
 \subsection{Adquisición de las herramientas}
 Se descargará en el home de Ubuntu para simplificar la reproducción. De Kafka Streams se descargarán los jars utilizados para testear la solución, hay diversos jars para poder testear por separado cada una de las acciones que hace la aplicación con Kafka Streams, pero se podría implementar con threads en un solo jar.
-\begin{lstlisting}[language=Bash]
+\begin{lstlisting}[language=Bash, breaklines=true]
 wget https://github.com/pezmosca/empty/raw/master/jars.tar.gz
 wget https://artifacts.elastic.co/downloads/logstash/logstash-6.3.0.tar.gz
 \end{lstlisting}
 
 \subsection{Instalación de las herramientas}
 La herramienta será instalada en el home para simplificar la reproducción. Suponiendo que la herramienta está en el home y suponiendo la versión 6.3.0:
-\begin{lstlisting}[language=Bash]
+\begin{lstlisting}[language=Bash, breaklines=true]
 tar xzf logstash-6.3.0.tar.gz
 mv logstash-6.3.0.tar.gz logstash
 tar xzf jars.tar.gz
@@ -134,7 +134,7 @@ sudo systemctl enable kafkastreams.service
 sudo systemctl start kafkastreams.service
 \end{lstlisting}
 \subsubsection{logstash.service}
-\begin{lstlisting}[language=Bash]
+\begin{lstlisting}[language=Bash, breaklines=true]
 [Unit]
 Documentation=https://www.elastic.co/products/logstash
 After=network.target
@@ -220,7 +220,7 @@ output {
 \section{Módulo de almacenamiento}
 \subsection{Adquisición de las herramientas}
 Las herramientas para este módulo se descargarán en el home de Ubuntu para simplificar la reproducción.
-\begin{lstlisting}[language=Bash]
+\begin{lstlisting}[language=Bash, breaklines=true]
 wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.3.0.tar.gz
 wget https://artifacts.elastic.co/downloads/kibana/kibana-6.3.0-linux-x86_64.tar.gz
 \end{lstlisting}
