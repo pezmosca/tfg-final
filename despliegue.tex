@@ -15,7 +15,7 @@ Para desplegar este subsistema tan solo se necesita un dispositivo Android. La v
 Este módulo hace un uso intensivo de CPU y red\cite{Tfg:restproxykafka}. El uso de red es elevado, puesto que ha de ser capaz de soportar diversas conexiones concurrentes en las cuales se pueden transmitir gran cantidad de datos. El uso de CPU es intensivo ya que cada petición POST la atiende un thread. Kafka Rest Proxy explota el paralelismo de la CPU, a más cores, más peticiones podrá atender. El uso de RAM que hace este módulo es modesto y con que pueda soportar 1GB de heap es suficiente. El uso de disco es mínimo, ya que no almacena ninguna información en ellos.
 \\
 
-La máquina escogida para desplegar este módulo ha sido la c5.2xlarge, en la tabla \ref{tabla:c5.2xlarge} se pueden ver sus recursos hardware.
+La máquina escogida para desplegar este módulo ha sido la c5.2xlarge, en la Tabla \ref{tabla:c5.2xlarge} se pueden ver sus recursos hardware.
 
 
 \begin{table}[H]\label{tabla:c5.2xlarge}
@@ -61,7 +61,7 @@ El uso que hace Zookeeper de los recursos es el siguiente\cite{Tfg:zookeeperdepl
 	\item \textbf{HDD}: Hace un uso intensivo de disco, se necesita un throughput elevado.
 \end{itemize}
 
-Con tales premisas, la máquina escogida para desplegar Apache Kafka ha sido la r4.xlarge, en la tabla \ref{tabla:kafkazookeeper} se pueden ver sus recursos hardware. La máquina escogida para desplegar Apache Zookeeper ha sido la r4.large, en la tabla \ref{tabla:c5.2xlarge} se pueden ver sus recursos hardware.
+Con tales premisas, la máquina escogida para desplegar Apache Kafka ha sido la r4.xlarge, en la Tabla \ref{tabla:kafkazookeeper} se pueden ver sus recursos hardware. La máquina escogida para desplegar Apache Zookeeper ha sido la r4.large, en la Tabla \ref{tabla:c5.2xlarge} se pueden ver sus recursos hardware.
 
 \begin{table}[H]\label{tabla:kafkazookeeper}
 	\centering
@@ -86,9 +86,9 @@ El despliegue del subsistema de transformación es particular puesto que un mód
 \subsubsection{Módulo de transformación}
 Al estar dividido el módulo de transformación en dos submódulos y encargarse de tareas diferentes, el uso de los recursos es diferente en los dos submódulos. 
 \\
-Para el submódulo de propósito específico se ha desplegar Logstash, en la documentación de la herramienta no se deja del todo claro los requerimientos hardware\cite{Tfg:logstashdeploy}, pero por su naturaleza se ha supuesto que hace un uso intensivo de CPU, RAM y red, y un uso ligero de disco. De momento se ha desplegado en una r4.xlarge, en la tabla \ref{tabla:kafkazookeeper} se puede ver sus recursos hardware. Como trabajo futuro, se ha monitorear el rendimiento de este submódulo para ver el uso de los recursos que hace, y cambiar si fuera necesario la máquina utilizada.
+Para el submódulo de propósito específico se ha de desplegar Logstash, en la documentación de la herramienta no se deja del todo claro los requerimientos hardware\cite{Tfg:logstashdeploy}, pero por su naturaleza se ha supuesto que hace un uso intensivo de CPU, RAM y red, y un uso ligero de disco. De momento se ha desplegado en una r4.xlarge, en la Tabla \ref{tabla:kafkazookeeper} se puede ver sus recursos hardware. Como trabajo futuro, se ha monitorear el rendimiento de este submódulo para ver el uso de los recursos que hace, y cambiar si fuera necesario la máquina utilizada.
 \\
-Para el submódulo de propósito general se ha de desplegar la aplicación Java que utiliza Kafka Streams. El despliegue de máquinas para este submódulo depende mucho del volumen de datos que se hayan de procesar, para la demostración se va a suponer un volumen de datos pequeño, tan solo para verificar que la solución funciona. La máquina escogida es una t2.micro en la tabla \ref{tabla:t2.micro} se pueden ver sus recursos hardware.
+Para el submódulo de propósito general se ha de desplegar la aplicación Java que utiliza Kafka Streams. El despliegue de máquinas para este submódulo depende mucho del volumen de datos que se hayan de procesar, para la demostración se va a suponer un volumen de datos pequeño, tan solo para verificar que la solución funciona. La máquina escogida es una t2.micro en la Tabla \ref{tabla:t2.micro} se pueden ver sus recursos hardware.
 
 \begin{table}[H]\label{tabla:t2.micro}
 	\centering
@@ -104,16 +104,16 @@ Para el submódulo de propósito general se ha de desplegar la aplicación Java 
 	\caption{Recursos hardware de la máquina virtual t2.micro}
 \end{table}
 
-Se van a desplegar 3 máquinas r4.xlarge para el submódulo de propósito específico, con el objetivo de distribuir la carga entre los servidores y aumentar la potencia de procesado.
+Se han desplegado 3 máquinas r4.xlarge para el submódulo de propósito específico, con el objetivo de distribuir la carga entre los servidores y aumentar la potencia de procesado.
 \\
-Se va a desplegar 1 máquina t2.micro para el submódulo de propósito general, con el objetivo de comprobar la solución propuesta.
+Se ha desplegado 1 máquina t2.micro para el submódulo de propósito general, con el objetivo de comprobar la solución propuesta.
 
 \subsection{Módulo de almacenamiento}
 Este módulo ya está desplegado en la empresa, por lo que el despliegue que se ha hecho es exclusivo para la demostración. Por un lado se ha desplegado un cluster de Elastic Search y una máquina con Kibana, y por otro una máquina con JIRA.
 
-Para el despliegue del cluster de Elastic Search se han utilizado máquinas parecidas a las que utiliza la empresa. La máquina escogida es una r4.xlarge, en la tabla \ref{tabla:kafkazookeeper} se puede ver sus recursos hardware. Para el despligue de Kibana se ha utilizado una t2.micro, ya que JIRA no consume grandes recursos, en la tabla \ref{tabla:t2.micro} se puede ver los recursos hardware de la máquina escogida.
+Para el despliegue del cluster de Elastic Search se han utilizado máquinas parecidas a las que utiliza la empresa. La máquina escogida es una r4.xlarge, en la Tabla \ref{tabla:kafkazookeeper} se puede ver sus recursos hardware. Para el despligue de Kibana se ha utilizado una t2.micro, ya que JIRA no consume grandes recursos, en la Tabla \ref{tabla:t2.micro} se puede ver los recursos hardware de la máquina escogida.
 \\
-Para el despligue de JIRA se va a utilizar una t2.small ya que JIRA como mínimo requiere 2 GiB de RAM para funcionar fluido. En la tabla \ref{tabla:t2.small} se puede ver los recursos hardware de la máquina escogida.
+Para el despligue de JIRA se va a utilizar una t2.small ya que JIRA como mínimo requiere 2 GiB de RAM para funcionar fluido. En la Tabla \ref{tabla:t2.small} se puede ver los recursos hardware de la máquina escogida.
 
 \begin{table}[H]\label{tabla:t2.small}
 	\centering
@@ -129,7 +129,9 @@ Para el despligue de JIRA se va a utilizar una t2.small ya que JIRA como mínimo
 	\caption{Recursos hardware de la máquina virtual t2.small}
 \end{table}
 
-Se van a desplegar 3 máquinas r4.xlarge para Elastic Search ya que se quiere comprobar el correcto funcionamiento del sistema cuando Elastic Search está distribuido en más de una máquina. Se va desplegar 1 máquina t2.micro para Kibana. Se va a desplegar una máquina t2.small para JIRA. Estas máquinas no aparecen en el presupuesto hardware de la Sección \ref{sec:presrechard} del Capítulo \ref{cap:gestionec} puesto que estos elementos ya existen en la empresa y no se han de contar como nuevos. El despliegue de estas máquinas es tan solo para la demo que se hará el día de la lectura del trabajo.
+Se van a desplegar 3 máquinas r4.xlarge para Elastic Search ya que se quiere comprobar el correcto funcionamiento del sistema cuando Elastic Search está distribuido en más de una máquina. Se va desplegar 1 máquina t2.micro para Kibana. Se va a desplegar una máquina t2.small para JIRA. 
+\\
+Estas máquinas no aparecen en el presupuesto hardware de la Sección \ref{sec:presrechard} del Capítulo \ref{cap:gestionec} puesto que estos elementos ya existen en la empresa y no se han de contar como nuevos. El despliegue de estas máquinas es tan solo para la demo que se hará el día de la lectura del trabajo.
 
 \subsection{Resumen de servicios a desplegar}
 
@@ -153,7 +155,7 @@ Se van a desplegar 3 máquinas r4.xlarge para Elastic Search ya que se quiere co
 	\caption{Recursos de servicios a desplegar}
 \end{table}
 
-En la tabla \ref{tabla:resumenservicios} se pueden ver el resumen de los servicios a desplegar en AWS. La columna \textit{Módulo} nos dice el módulo del sistema que se despliega, la columna \textit{Aplicación} nos marca la aplicación que se va a desplegar, la columna \textit{Servicio} no dice el servicio de AWS que se va a utilizar, la columna \textit{Detalle} nos informa sobre que servicio en concreto se va a desplegar y la columna \textit{Número} no dice el número de instancias que se van a desplegar. Cada fila corresponde a los servicios a desplegar.
+En la Tabla \ref{tabla:resumenservicios} se puede ver el resumen de los servicios a desplegar en AWS. La columna \textit{Módulo} nos dice el módulo del sistema que se despliega, la columna \textit{Aplicación} nos marca la aplicación que se va a desplegar, la columna \textit{Servicio} no dice el servicio de AWS que se va a utilizar, la columna \textit{Detalle} nos informa sobre que servicio en concreto se va a desplegar y la columna \textit{Número} no dice el número de instancias del \textit{Servicio} que se van a desplegar. Cada fila corresponde a los servicios a desplegar.
 
 \subsection{Visión general del despliegue}\label{cap:networking}
 
@@ -163,8 +165,8 @@ En la tabla \ref{tabla:resumenservicios} se pueden ver el resumen de los servici
 	\label{fig:networking1}
 \end{figure}
 
-En la figura \ref{fig:networking1} se puede ver el como queda el despliegue de red de las máquinas, y una leyenda con el significado de los iconos. Para interconectar las diferentes máquinas, AWS son ofrece el servicio Amazon Virtual Private Cloud (Amazon VPC), esta VPC es una red virtual que interconecta las máquinas virtuales que se han desplegado, funciona parecido a una red local tradicional. En la figura \ref{fig:networking1} se puede ver como existen 3 subredes que residen en 3 Availability Zones diferentes. AWS trabaja con los conceptos de región y zonas de disponibilidad. La VPC reside en una región, una región es una porción geográfica de un país. Las zonas de disponibilidad son diferentes data centers dentro de la región. En el caso de la figura, el sistema reside en una zona y está disperso entre los diferentes data centers de la zona. Se ha hecho así para aumentar la confiabilidad del sistema ya que tal y como se han configurado los diferentes módulos, el sistema es tolerante a caídas de servidores, y desplegarlos en diferentes zonas de disponibilidad disminuye la posibilidad de que caigan dos máquinas a la vez del mismo módulo.
+En la Figura \ref{fig:networking1} se puede ver el como queda el despliegue de red de las máquinas, y una leyenda con el significado de los iconos. Para interconectar las diferentes máquinas, AWS son ofrece el servicio Amazon Virtual Private Cloud (Amazon VPC), esta VPC es una red virtual que interconecta las máquinas virtuales que se han desplegado, funciona parecido a una red local tradicional. En la Figura \ref{fig:networking1} se puede ver como existen 3 subredes que residen en 3 Availability Zones diferentes. AWS trabaja con los conceptos de región y zonas de disponibilidad. La VPC reside en una región, una región es una porción geográfica de un país. Las zonas de disponibilidad son diferentes data centers dentro de la región. En el caso de la figura, el sistema reside en una zona y está disperso entre los diferentes data centers de la zona. Se ha hecho así para aumentar la confiabilidad del sistema ya que tal y como se han configurado los diferentes módulos, el sistema es tolerante a caídas de servidores, y desplegarlos en diferentes zonas de disponibilidad disminuye la posibilidad de que caigan dos máquinas a la vez del mismo módulo.
 \\\\
-La figura \ref{fig:networking1} también muestra que la VPC está encabezada por un Aplication Load Balancer, este balanceador de carga es el que recibe las peticiones del dispositivo ubicuo y distribuye la carga entre los 3 Kafka Rest Proxy nodes. Por último, la figura muestra en la Subnet 3 una Internet Gateway, se ha añadido para que las máquinas de JIRA y de Kibana sean accesibles desde Internet.
+La Figura \ref{fig:networking1} también muestra que la VPC está encabezada por un Aplication Load Balancer, este balanceador de carga es el que recibe las peticiones del dispositivo ubicuo y distribuye la carga entre los 3 Kafka Rest Proxy nodes. Por último, la Figura \ref{fig:networking1} muestra en la Subnet 3 una Internet Gateway, se ha añadido para que las máquinas de JIRA y de Kibana sean accesibles desde Internet.
 
 
