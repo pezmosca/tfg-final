@@ -22,7 +22,7 @@ Con relación a las tareas expuestas en el diagrama de Gantt \ref{fig:gantt} de 
 
 \textbf{\underline{Presupuesto total recursos humanos = 14.796 €}}
 
-\subsection{Presupuesto recursos hardware}
+\subsection{Presupuesto recursos hardware}\label{sec:presrechard}
 Para llevar a cabo el proyecto y como se mostraba en la sección \ref{cap:recfis}, se va a utilizar una serie de recursos físicos. En el caso del hardware encontramos cuatro elementos, la computadora Lenovo Y700, el celular Xiaomi MI A1, el servidor remoto GitHub y los servidores de producción. 
 
 Es interesante comentar que para los servidores de producción se va a utilizar Amazon Web Service (AWS) \cite{Tfg:aws}, por lo que no se pagará por la adquisición de los servidores sino por su uso por hora, supondremos para hacer los cálculos que durante el desarrollo del proyecto vamos a utilizarlos todas las horas que dura este. No se contará nada más a parte de su coste por horas. El número de instancias es una previsión dado que aún no se ha llegado a la fase del proyecto en que se tengan que decidir las máquinas de producción. Como el precio es bajo demanda, no se va a calcular el tiempo de amortización de los servidores de producción ya que el coste del hardware por hora real ya es el que se paga. 
@@ -34,10 +34,9 @@ En el Tabla \ref{tab:prepaws} se muestran las máquinas a utilizar con el gasto 
 	\begin{tabular}{|l|l|l|l|l|}
 		\hline
 		\textbf{Instancia}  & \textbf{Número de instancias} & \textbf{Precio por hora} & \textbf{Horas} & \textbf{Precio total} \\ \hline
-		\textbf{r4.xlarge}  & 5                             & 0,25 €/h \cite{Tfg:ec2price} & 270 h          & 337,5 €               \\ \hline
+		\textbf{r4.xlarge}  & 6                             & 0,21 €/h \cite{Tfg:ec2price} & 270 h          & 342,9 €               \\ \hline
 		\textbf{r4.large}   & 3                             & 0,12 €/h \cite{Tfg:ec2price} & 270 h          & 97,2 €                \\ \hline
 		\textbf{c5.2xlarge} & 3                             & 0,33 €/h \cite{Tfg:ec2price} & 270 h          & 267,3 €               \\ \hline
-		\textbf{t2.small}   & 1                             & 0,02 €/h \cite{Tfg:ec2price} & 270 h          & 5,4 €                 \\ \hline
 		\textbf{t2.micro}   & 1                             & 0,01 €/h \cite{Tfg:ec2price} & 270 h          & 2,7 €                 \\ \hline
 		\multicolumn{4}{|l|}{\textbf{Total}} & \textbf{\underline{710,1 €}}                                                   \\ \hline
 	\end{tabular}
