@@ -174,7 +174,7 @@
     \RequirePackage[sort&compress,round,authoryear]{natbib}
   \fi
   \if@spanish
-    \bibliographystyle{ezspanish}
+    \bibliographystyle{ieeetr}
   \else
     \bibliographystyle{plainnat}
   \fi
