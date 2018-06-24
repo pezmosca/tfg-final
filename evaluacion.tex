@@ -31,34 +31,94 @@ La fase de validación del subsistema de recolección y envío de eventos consis
 
 %%Foto de la app del movil con el nombre TFG recolección y envío
 
-En la Figura X se puede ver la aplicación que se ha creado para validar que se recogen y envían los eventos correctamente. Consiste en dos botones, uno que genera un crash y otro que genera un log con el texto de que se le ponga en la textbox. Luego la aplicación, en el caso del crash lo envía al módulo de recepción sin almacenarlo en el dispositivo, y en el caso del log lo almacena en el dispositivo hasta que lo envía cuando la aplicación se cierra.
+En la Figura \ref{fig:android} se puede ver una captura de la aplicación que se ha creado para validar que se recogen y envían los eventos correctamente. Consiste en dos botones, uno que genera un crash y otro que genera un log con el texto de que se le ponga en la textbox. Luego la aplicación, en el caso del crash lo envía al módulo de recepción sin almacenarlo en el dispositivo, y en el caso del log lo almacena en el dispositivo hasta que lo envía cuando la aplicación se cierra.
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[scale=0.40] {captura.jpeg}
+	\caption{Captura de la aplicación de validación}
+	\label{fig:android}
+\end{figure}
 
 \subsection{Validación del subistema de recepción e ingesta}
 La fase de validación del subistema de recepción e ingesta de eventos consiste en, por un lado configurar en una máquina virtual el módulo de recepción para que sea capaz de recibir eventos y pasarlos al módulo de ingesta. Por otro lado se ha de configurar en otra máquina virtual el módulo de ingesta de eventos para que sea capaz de comunicarse con el módulo de recepción de eventos y almacenar de forma parcial los eventos. Una vez las dos máquinas virtuales se comuniquen entre si, y los mensajes enviados al módulo de recepción se almacenen en el módulo de ingesta, se ha considerado que la configuración principal era la correcta y se ha procedido a exportar tal configuración al entorno de producción.
 
 %%Foto con output de la petición POST y foto con output del topic logs y crashes
 
-En la Figura X se puede ver la respuesta positiva que da el módulo de recepción a la petición HTTP POST para publicar datos en el módulo de ingesta. El código 200 de HTTP indica que el comportamiento es esperado. A parte esta respuesta ofrece información sobre como se han distribuido los datos en el módulo de ingesta, cosa que puede ayudar a validar el módulo de ingesta. 
 
-En la Figura Y se ve el contenido del topic logs y en la Figura Z el contenido del topic crashes. Si los logs y los crashes que se generan con la aplicación aparecen en sus respectivos topics es que tanto el módulo de recepción como el de ingesta están funcionando correctamente.
+En la Figura \ref{fig:POST} se puede ver la respuesta positiva que da el módulo de recepción a la petición HTTP POST para publicar datos en el módulo de ingesta. El código 200 de HTTP indica que el comportamiento es esperado. A parte del código 200, se ofrece información sobre como se han distribuido los datos en el módulo de ingesta, cosa que ayuda a validar el módulo de ingesta, en la Figura \ref{fig:POST} se puede ver tal información.
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[scale=0.60] {kafka-rest.png}
+	\caption{Cuerpo de la respuesta HTTP del módulo de recepción}
+	\label{fig:POST}
+\end{figure}
+
+
+En la Figura \ref{fig:logs} se ve el contenido del topic logs y en la Figura \ref{fig:crashes} el contenido del topic crashes. Si los logs y los crashes que se generan con la aplicación aparecen en sus respectivos topics es que tanto el módulo de recepción como el de ingesta están funcionando correctamente.
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[scale=0.60, width=\linewidth] {kafka-logs.png}
+	\caption{Contenido del topic logs}
+	\label{fig:logs}
+\end{figure}
+
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[scale=0.60, width=\linewidth] {kafka-crashes.png}
+	\caption{Contenido del topic crashes}
+	\label{fig:crashes}
+\end{figure}
 
 \subsection{Validación del subsistema de transformación}
 La fase de validación del subsistema de transformación de eventos, consiste en configurar en local una máquina virtual con el subsistema de recolección y envío de eventos a la cual se han ido enviando eventos, tales eventos van a ser consumidos por la aplicación de procesado que se ha programado y por Logstash, se ha redirigido la salida de tales programas a la consola para validar que la transformación es la correcta, una vez se han obtenido los datos esperados, se ha procedido a desplegar las configuraciones en entornos de producción.
 
 %%Foto output kafka streams logstash
 
-En la Figura X se puede ver el contenido del topic donde se almacena el resultado de la transformación de Kafka Streams, el formato del mensaje es el esperado, por lo que se puede dar por validado.
+En la Figura \ref{fig:crashout} se puede ver el contenido del topic donde se almacena el resultado de la transformación de Kafka Streams, el formato del mensaje es el esperado, por lo que se puede dar por validado.
 
-En la Figura Y se ve como queda el mensaje una vez ha sido transformado por Logstash, como el formato del mensaje es el esperado, se puede dar por validado.
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[scale=0.60, width=\linewidth] {crashout.png}
+	\caption{Contenido del topic crashout}
+	\label{fig:crashout}
+\end{figure}
+
+En la Figura \ref{fig:logstash} se ve como queda el mensaje una vez ha sido transformado por Logstash, como el formato del mensaje es el esperado, se puede dar por validado.
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[scale=0.60, width=\linewidth] {logstash.png}
+	\caption{Mensaje resultante después del procesado que hace Logstash}
+	\label{fig:logstash}
+\end{figure}
+
+
+
 
 \subsection{Validación de la integración con JIRA y ES Stack}
 La fase de validación de la integración con JIRA y ES Stack consiste en montar en local los tres subsistemas, un nodo con JIRA y un nodo con toda la ES Stack, refinar las configuraciones de los módulos hasta que se consiga, recolectar, enviar, recibir, ingerir, transformar y cargar un evento en JIRA y en la ES Stack. En JIRA se tendrá que generar un ticket con información sobre el evento. En ES Stack, Logstash ya ha hecho una transformación del evento, lo pasará a ElasticSearch, y Kibana será capaz de consumir el evento apuntando a ElasticSearch. Una vez se ha conseguido el comportamiento deseado, se han exportado las configuraciones a los entornos de producción.
 
-%%Foto de ticket en JIRA y Kibana
+En la Figura \ref{fig:jira} se puede ver el ticket en JIRA que se ha creado fruto de los crashes que se han generado.
 
-En la Figura X se puede ver el ticket en JIRA que se ha creado fruto de los crashes que se han generado.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4] {jira.png}
+	\caption{Ticket resultante en JIRA}
+	\label{fig:jira}
+\end{figure}
 
-En la Figura Y se ve diferentes resultados en Kibana que se han creado frutos de los logs que se han generado.
+En la Figura \ref{fig:kibana} se ve diferentes resultados en Kibana que se han creado frutos de los eventos que se han generado.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5, width=\linewidth] {kibana.png}
+	\caption{Resultados generados por los eventos}
+	\label{fig:kibana}
+\end{figure}
 
 Puesto que el ticket en JIRA existe, y los resultados en Kibana también, significa que todos los módulos del sistema funcionan correctamente y se puede dar por validado la totalidad el sistema.
 

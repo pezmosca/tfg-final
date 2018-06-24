@@ -175,7 +175,7 @@ Se ha de generar una pipeline para procesar los eventos. Tal pipeline se ha de c
 input {
   kafka {
     bootstrap_servers => "localhost:9092"
-    topics => ["log", "crashout"]
+    topics => ["logs", "crashout"]
     group_id => "tfg-logstash"
     codec => json
     decorate_events => true
@@ -183,7 +183,7 @@ input {
 }
 
 filter {
-  if [@metadata][kafka][topic] == "log" {
+  if [@metadata][kafka][topic] == "logs" {
     mutate {
       rename => { "T" => "ExecutionTime"
       "T2" => "Timestamp"
@@ -198,7 +198,7 @@ filter {
 
 output {
 
-  if[@metadata][kafka][topic] == "log" {
+  if[@metadata][kafka][topic] == "logs" {
     elasticsearch {
       hosts => [ "localhost:9200" ]
       index => "logs"
