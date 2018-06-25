@@ -31,7 +31,7 @@ La fase de validación del subsistema de recolección y envío de eventos consis
 
 %%Foto de la app del movil con el nombre TFG recolección y envío
 
-En la Figura \ref{fig:android} se puede ver una captura de la aplicación que se ha creado para validar que se recogen y envían los eventos correctamente. Consiste en dos botones, uno que genera un crash y otro que genera un log con el texto de que se le ponga en la textbox. Luego la aplicación, en el caso del crash lo envía al módulo de recepción sin almacenarlo en el dispositivo, y en el caso del log lo almacena en el dispositivo hasta que lo envía cuando la aplicación se cierra.
+En la Figura \ref{fig:android} se puede ver una captura de la aplicación que se ha creado para validar que se recogen y envían los eventos correctamente. Consiste en dos botones, uno que genera un crash y otro que genera un log con el texto que se le ponga en la textbox. Luego la aplicación, en el caso del crash lo envía al módulo de recepción sin almacenarlo en el dispositivo, y en el caso del log lo almacena en el dispositivo hasta que lo envía cuando la aplicación se cierra.
 
 \begin{figure}[!htb]
 	\centering
@@ -74,16 +74,16 @@ En la Figura \ref{fig:logs} se ve el contenido del topic logs y en la Figura \re
 \end{figure}
 
 \subsection{Validación del subsistema de transformación}
-La fase de validación del subsistema de transformación de eventos, consiste en configurar en local una máquina virtual con el subsistema de recolección y envío de eventos a la cual se han ido enviando eventos, tales eventos van a ser consumidos por la aplicación de procesado que se ha programado y por Logstash, se ha redirigido la salida de tales programas a la consola para validar que la transformación es la correcta, una vez se han obtenido los datos esperados, se ha procedido a desplegar las configuraciones en entornos de producción.
+La fase de validación del subsistema de transformación de eventos, consiste en lanzar las aplicaciones de procesado y configurar en local una máquina virtual con el subsistema de recepción e ingesta de eventos a la cual se han ido enviando eventos, tales eventos van a ser consumidos por la aplicación de procesado que se ha programado y por Logstash, se ha redirigido la salida de tales aplicaciones a la consola para validar que la transformación es la correcta, una vez se han obtenido los datos esperados, se ha procedido a desplegar las configuraciones en entornos de producción.
 
 %%Foto output kafka streams logstash
 
-En la Figura \ref{fig:crashout} se puede ver el contenido del topic donde se almacena el resultado de la transformación de Kafka Streams, el formato del mensaje es el esperado, por lo que se puede dar por validado.
+En la Figura \ref{fig:crashout} se puede ver el resultado de la transformación de Kafka Streams, el formato del mensaje es el esperado, por lo que se puede dar por validado.
 
 \begin{figure}[!htb]
 	\centering
 	\includegraphics[scale=0.60, width=\linewidth] {crashout.png}
-	\caption{Contenido del topic crashout}
+	\caption{Resultado de la transformación con Kafka Streams}
 	\label{fig:crashout}
 \end{figure}
 
@@ -92,15 +92,15 @@ En la Figura \ref{fig:logstash} se ve como queda el mensaje una vez ha sido tran
 \begin{figure}[!htb]
 	\centering
 	\includegraphics[scale=0.60, width=\linewidth] {logstash.png}
-	\caption{Mensaje resultante después del procesado que hace Logstash}
+	\caption{Resultado de la transformación con Logstash}
 	\label{fig:logstash}
 \end{figure}
 
 
 
 
-\subsection{Validación de la integración con JIRA y ES Stack}
-La fase de validación de la integración con JIRA y ES Stack consiste en montar en local los tres subsistemas, un nodo con JIRA y un nodo con toda la ES Stack, refinar las configuraciones de los módulos hasta que se consiga, recolectar, enviar, recibir, ingerir, transformar y cargar un evento en JIRA y en la ES Stack. En JIRA se tendrá que generar un ticket con información sobre el evento. En ES Stack, Logstash ya ha hecho una transformación del evento, lo pasará a ElasticSearch, y Kibana será capaz de consumir el evento apuntando a ElasticSearch. Una vez se ha conseguido el comportamiento deseado, se han exportado las configuraciones a los entornos de producción.
+\subsection{Validación de la integración con JIRA y ELK Stack}
+La fase de validación de la integración con JIRA y ELK Stack consiste en montar en local los tres subsistemas, un nodo con JIRA y un nodo con toda la ELK Stack, refinar las configuraciones de los módulos hasta que se consiga, recolectar, enviar, recibir, ingerir, transformar y cargar un evento en JIRA y en la ELK Stack. En JIRA se tendrá que generar un ticket con información sobre el evento. En ls ELK Stack, Logstash ya ha hecho una transformación del evento, lo pasará a Elastic Search, y Kibana será capaz de consumir el evento apuntando a Elastic Search. Una vez se ha conseguido el comportamiento deseado, se han exportado las configuraciones a los entornos de producción.
 
 En la Figura \ref{fig:jira} se puede ver el ticket en JIRA que se ha creado fruto de los crashes que se han generado.
 
@@ -111,7 +111,7 @@ En la Figura \ref{fig:jira} se puede ver el ticket en JIRA que se ha creado frut
 	\label{fig:jira}
 \end{figure}
 
-En la Figura \ref{fig:kibana} se ve diferentes resultados en Kibana que se han creado frutos de los eventos que se han generado.
+En la Figura \ref{fig:kibana} se ve diferentes resultados en Kibana que se han creado fruto de los eventos que se han generado.
 
 \begin{figure}[H]
 	\centering

@@ -8,7 +8,7 @@
 	\label{fig:subrecing}
 \end{figure}
 
-El subsistema de recepción e ingesta está formado por dos módulos, los cuales actúan fuera del dispositivo ubicuo. Esta es una división a nivel lógico y existe para reducir a problemas más simples el problema general, aunque nada impide que una herramienta implemente dos módulos. En la figura \ref{fig:subrecing} se puede ver como se relacionan los módulos y las herramientas del subsistema. Las flechas indican el sentido del flujo de datos.
+El subsistema de recepción e ingesta está formado por dos módulos, los cuales actúan fuera del dispositivo ubicuo. Esta es una división a nivel lógico y existe para reducir a problemas más simples el problema general, aunque nada impide que una herramienta implemente dos módulos. En la Figura \ref{fig:subrecing} se puede ver como se relacionan los módulos y las herramientas del subsistema. Las flechas indican el sentido del flujo de datos.
 
 \subsection{Módulo de recepción}
 
@@ -38,10 +38,10 @@ Añadir este módulo de ingesta facilita la integración de nuevos módulos ya q
 \section{Estructura del subsistema}
 
 \subsection{Módulo de recepción}
-Tal como muestra la \ref{fig:subrecing}, el módulo de recepción lo integra una API REST que es capaz de recibir los eventos y enviarlos al módulo de ingesta. Se ha escogido una API REST, puesto que la comunicación mediante peticiones REST permite una fácil integración con los dispositivos ubicuos. Utilizar una API REST también ayuda a que el sistema se pueda integrar rápidamente con nuevos dispositivos ubicuos diferentes a los que usa actualmente la empresa.
+Tal como muestra la Figura \ref{fig:subrecing}, el módulo de recepción lo integra una API REST \cite{Tfg:REST} que es capaz de recibir los eventos y enviarlos al módulo de ingesta. Se ha escogido una API REST, puesto que la comunicación mediante peticiones REST permite una fácil integración con los dispositivos ubicuos. Utilizar una API REST también ayuda a que el sistema se pueda integrar rápidamente con nuevos dispositivos ubicuos diferentes a los que usa actualmente la empresa.
 
 \subsection{Módulo de ingesta}
-Tal como muestra la \ref{fig:subrecing}, el módulo de ingesta lo integra una streaming platform, una especie de buffer que almacena los datos sirviéndolos para que otro módulo los consuma. Suple las funciones de un message broker\cite{Tfg:messagebroker} y le añade ciertas funcionalidades. Esta streaming platform es capaz de recibir los eventos y almacenarlos en memoria y en disco.
+Tal como muestra la Figura \ref{fig:subrecing}, el módulo de ingesta lo integra una streaming platform, una especie de buffer que almacena los datos sirviéndolos para que otro módulo los consuma. Suple las funciones de un message broker\cite{Tfg:messagebroker} y le añade ciertas funcionalidades. Esta streaming platform es capaz de recibir los eventos y almacenarlos en memoria y en disco.
 
 
 \section{Herramientas utilizadas}
@@ -71,13 +71,13 @@ Para el módulo de ingesta se ha escogido utilizar Kafka Rest Proxy\cite{Tfg:kaf
 
 \subsection{Módulo de recepción}
 
-En el Capítulo \ref{cap:despligue} se hablará con más detalle de que este módulo a parte de máquinas tiene un balanceador de carga que distribuye el trabajo entre las máquinas. Configurar ese balanceador de carga también forma parte de la configuración de este módulo. A ese balanceador se le ha tenido que decir que las peticiones REST que vengan por el puerto \textit{8080}las redirija a las máquinas que forman el módulo de recepción.
+En el Capítulo \ref{cap:despligue} se hablará con más detalle de que este módulo a parte de máquinas tiene un balanceador de carga que distribuye el trabajo entre las máquinas. Configurar ese balanceador de carga también forma parte de la configuración de este módulo. A ese balanceador se le ha tenido que decir que las peticiones REST que vengan por el puerto \textit{8080} las redirija a las máquinas que forman el módulo de recepción.
 \\\\
 A las máquinas que forman el módulo de recepción se le ha tenido que configurar el destino de los mensajes recibidos, es decir, que envíen los mensajes que reciben del módulo de envío al módulo de ingesta. También se le ha tenido que dotar de una id única para que el módulo de ingesta reconozca las máquinas.
 
 \subsection{Módulo de ingesta}
 
-El módulo de ingesta tiene una forma particular de almacenar los datos. Almacena los datos en \textit{topics}, los \textit{topics} son similares a las tablas en SQL. Se han creado dos \textit{topics}, el \textit{topic} logs, donde se almacenarán los logs, y el \textit{topic} crashlogs donde se almacenarán los crashlogs. Los \textit{topics} se dividen en particiones para explotar al máximo el paralelismo y permitir que diversas máquinas consuman diferentes particiones del mismo \textit{topic}. Estas particiones se pueden replicar entre las máquinas con el fin de aumentar la durabilidad y la confiabilidad del sistema. Por lo que en resumen la configuración escogida de los \textit{topics} es la siguiente:
+El módulo de ingesta tiene una forma particular de almacenar los datos. Almacena los datos en \textit{topics}, los \textit{topics} son similares a las tablas en SQL. Se han creado dos \textit{topics}, el \textit{topic} logs, donde se almacenarán los logs, y el \textit{topic} crashes donde se almacenarán los crashlogs. Los \textit{topics} se dividen en particiones para explotar al máximo el paralelismo y permitir que diversas máquinas consuman diferentes particiones del mismo \textit{topic}. Estas particiones se pueden replicar entre las máquinas con el fin de aumentar la durabilidad y la confiabilidad del sistema. Por lo que en resumen la configuración escogida de los \textit{topics} es la siguiente:
 
 \begin{itemize}
 	\item Topic \textit{logs}, 3 particiones, 3 replicas de cada partición. De esta manera 3 máquinas pueden consumir los datos a la vez y pueden fallar 2 máquinas del cluster que aún los datos serán accesibles.
